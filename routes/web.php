@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ use Inertia\Inertia;
 |
 */
 Route::get('/products', [ProductController::class, 'index']);
-
+Route::any('/category/create', [CategoryController::class, 'createCategory'])->name('createCategory');
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),

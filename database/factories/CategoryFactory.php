@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
@@ -17,11 +18,12 @@ class CategoryFactory extends Factory
      */
     public function definition()
     {
-        $name = $this->faker->realText(10);
+        $name = ['Sweater', 'Pants', 'Shirt', 'Hat', 'Glasses', 'socks'];
 
         return [
-            'name' => $name,
-            'slug' => Str::slug($name)
+            'name' => Arr::random($name),
+            'slug' => Str::random(10),
+            'parent_id' => $this->faker->numberBetween(1, 8),
         ];
     }
 }

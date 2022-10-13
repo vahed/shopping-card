@@ -11,13 +11,18 @@ class Product extends Model
 
     protected $guarded = [];
 
-    public function categories()
+    public function category()
     {
         return $this->belongsToMany(Category::class);
     }
 
-    public function orders()
+    public function order()
     {
         return $this->belongsToMany(Order::class);
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
     }
 }
