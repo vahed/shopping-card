@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,5 +24,12 @@ class DatabaseSeeder extends Seeder
            CategorySeeder::class,
            BrandSeeder::class
         ]);
+
+        $categories = Category::all();
+        Product::all()->each( function ($product) use ( $categories) {
+           $product->categories()->attach(
+               $categories->random(2)->pluck('id')->toArray()
+           );
+        });
     }
 }

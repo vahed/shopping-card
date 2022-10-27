@@ -9,14 +9,30 @@ use function Termwind\render;
 
 class CategoryController extends Controller
 {
+    /**
+     * get all the categories
+     * @return \Inertia\Response
+     */
+    public function index()
+    {
+        //$category = Category::getCategory();
+        $category = Category::all();
+
+        return Inertia::render('Welcome', [ 'category' => $category  ]);
+    }
+
+    /**
+     * for creating new category for admin purposes
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Inertia\Response|void
+     */
     public function createCategory(Request $request)
     {
-        $categories = Category::getCategory();
+        $category = Category::getCategory();
 
         if($request->method()=='GET')
         {
-            return response()->json(['data' => $categories]);
-            return view('create-category', compact('categories'));
+            return Inertia::render('Welcome', [ 'category' => $category  ]);
         }
         if($request->method()=='POST')
         {

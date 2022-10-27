@@ -3,6 +3,7 @@ import { Head, Link } from '@inertiajs/inertia-vue3';
 import Product from '../Components/Products/Product.vue';
 import Footer from '@/Layouts/Footer.vue';
 import Navbar from "@/Layouts/Navbar.vue";
+import Category from "../Components/Products/Category.vue";
 
 defineProps({
     canLogin: Boolean,
@@ -10,6 +11,7 @@ defineProps({
     laravelVersion: String,
     phpVersion: String,
     products: Object,
+    category: Object
 })
 
 </script>
@@ -45,6 +47,9 @@ defineProps({
     <!-- main -->
     <section class="container mx-auto px-6 p-10">
         <Product :products="products" />
+    </section>
+    <section class="container mx-auto px-6 p-10">
+        <Category :category="category"/>
     </section>
 
     <!-- footer -->

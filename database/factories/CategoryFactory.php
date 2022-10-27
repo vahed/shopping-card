@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Category>
@@ -18,12 +17,12 @@ class CategoryFactory extends Factory
      */
     public function definition()
     {
-        $name = ['Sweater', 'Pants', 'Shirt', 'Hat', 'Glasses', 'socks'];
-
+        $nameArr = ['Sweater', 'Pants', 'Shirt', 'Hat', 'Glasses', 'socks'];
+        $name = trim(Arr::random($nameArr));
         return [
-            'name' => Arr::random($name),
-            'slug' => Str::random(10),
-            'parent_id' => $this->faker->numberBetween(1, 8),
+            'name' => $name,
+            'slug' => fake()->unique()->name,
+            //'parent_id' => $this->faker->numberBetween(1, 8),
         ];
     }
 }

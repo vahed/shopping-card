@@ -10,7 +10,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
+        $products = Product::with('categories:id,name')->get();
 
         return Inertia::render('Welcome', [ 'products' => $products ]);
     }

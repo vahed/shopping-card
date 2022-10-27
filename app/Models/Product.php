@@ -11,12 +11,20 @@ class Product extends Model
 
     protected $guarded = [];
 
-    public function category()
+    /**
+     * Each product belongs to many categories
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function categories()
     {
         return $this->belongsToMany(Category::class);
     }
 
-    public function order()
+    /**
+     * Each product belongs to many orders as well
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function orders()
     {
         return $this->belongsToMany(Order::class);
     }

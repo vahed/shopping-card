@@ -17,15 +17,11 @@
 </template>
 
 <script>
-//import BreezeAuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/inertia-vue3';
-import { Inertia } from '@inertiajs/inertia';
-import { reactive } from 'vue';
 
 export default {
     name: "Todo.vue",
     components: {
-        //BreezeAuthenticatedLayout,
         Head
     },
     props: {

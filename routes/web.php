@@ -18,7 +18,9 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/purchase', [ProductController::class, 'purchase']);
 Route::get('/products', [ProductController::class, 'index']);
+Route::any('/category', [CategoryController::class, 'index'])->name('category');
 Route::any('/category/create', [CategoryController::class, 'createCategory'])->name('createCategory');
 Route::get('/', function () {
     return Inertia::render('Welcome', [
