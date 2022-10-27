@@ -9,6 +9,17 @@ use Inertia\Inertia;
 
 class CartController extends Controller
 {
+    public function index()
+    {
+
+    }
+
+    public function store(Request $request)
+    {
+        $cart = Cart::add('293', 'Product 1', 1, 9.99, 550);
+        dd($cart);
+    }
+
     public function cart()
     {
         $cartCollection = Cart::getContent();

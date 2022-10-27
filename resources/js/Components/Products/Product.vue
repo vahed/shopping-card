@@ -3,13 +3,13 @@
         Products
     </h2>
     <div class="grid grid-cols-4">
-        <div v-for="product in products">
-            <div class="m-4 bg-white rounded shadow overflow-hidden">
+        <div v-for="product in products" :key="product.id">
+            <div class="m-4 bg-white rounded shadow overflow-hidden" @click="showProduct(product)">
                 <div class="p-4">
                     <div class="font-semibold text-sm">{{ product.name }}</div>
                     <div class="text-xs text-gray-500">{{ product.description }}</div>
                 </div>
-                <div class="border-t px-4 py-2 fonr-bold text-sm">£{{ product.price/100 }}</div>
+                <div class="border-t px-4 py-2 fonr-bold text-sm">{{ formatCurrency(product.price) }}</div>
             </div>
         </div>
     </div>
@@ -29,7 +29,18 @@ export default {
         errors: Object,
         message: Object
     },
-    setup() {
+    methods: {
+        formatCurrency(price) {
+            price = (price /100);
+            return price.toLocaleString('en-GB', { style: 'currency', currency: 'GBP'})
+        },
+        showProduct(product) {
+            // this.$inertia.post(this.route('cart.store'), {
+            //     id: product.id,
+            //     name: product.name
+            // })
+            this.$inertia.get(this.route('products.show',product.id))
+        }
     }
 }
 </script>
