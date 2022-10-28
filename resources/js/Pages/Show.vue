@@ -27,9 +27,21 @@ import Navbar from "@/Layouts/Navbar.vue";
                             class="title-font font-medium text-2xl text-gray-900"
                             v-text="formatCurrency(products.price)"
                         ></span>
+
+                        <!-- Dropdown menu -->
+                        <div>Selected: {{ selected }}</div>
+
+                        <select v-model="selected">
+<!--                            <option disabled value="">Please select one</option>-->
+<!--                            <option>A</option>                            <option>B</option>-->
+<!--                            <option>C</option>-->
+
+
+                        </select>
+
                         <button
                             class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                            @click=""
+                            @click="addToCard"
                         >Add To Cart</button>
                     </div>
                 </div>
@@ -42,6 +54,24 @@ import Navbar from "@/Layouts/Navbar.vue";
 
 export default {
     name: "Show.vue",
+    data() {
+        return {
+            selected: '',
+            quantity: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+            //quantity: 1,
+            form: this.$inertia.form({
+                id: this.product.id,
+                name: this.product.name,
+                price: this.product.price,
+                product_code: this.product.product_code,
+                details: this.product.details,
+                image: this.product.image,
+                slug: this.product.slug,
+                quantity: 1,
+                totalQty: this.product.quantity
+            })
+        }
+    },
     props: {
         products: Object,
         product: Object,
@@ -49,10 +79,22 @@ export default {
         message: Object
     },
     methods: {
-        formatCurrency(price)
-        {
+        formatCurrency(price) {
             price = (price /100);
             return price.toLocaleString('en-GB', { style: 'currency', currency: 'GBP'})
+        },
+        addToCard(){
+            this.$inertia.post(this.route('cart.store', {
+                id: 2,//this.product.id,
+                name: 'sweater',//this.product.name,
+                price: 19000,//this.product.price,
+                product_code: 123455,//this.product.product_code,
+                details: 'more details',//this.product.details,
+                image: 'image1.png',//this.product.image,
+                slug: 'sweater',//this.product.slug,
+                quantity: 1,
+                totalQty: 3//this.product.quantity
+            }))
         }
     },
 }

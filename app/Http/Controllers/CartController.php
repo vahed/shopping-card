@@ -4,20 +4,36 @@ namespace App\Http\Controllers;
 
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
-use App\Models\Product;
 use Inertia\Inertia;
 
 class CartController extends Controller
 {
     public function index()
     {
+        $cartItems = Cart::content('default');
 
+        return Inertia::render('Cart/Cart', ['cartItems', $cartItems]);
     }
 
     public function store(Request $request)
     {
-        $cart = Cart::add('293', 'Product 1', 1, 9.99, 550);
-        dd($cart);
+
+        $cartItems = Cart::instance('default')->add(
+            $request->id,
+            $request->name,
+            $request->quantity,
+            $request->price,
+            0,
+            [
+                'totalQty' => $request->totalQty,
+                'product_code' => $request->product_code,
+                'image' => $request->image,
+                'slug' => $request->slug,
+                'details' => $request->details
+            ]
+        )->associate('App\Models\Product');
+
+        return Inertia::render('Cart/Cart', ['cartItems', $cartItems]);
     }
 
     public function cart()

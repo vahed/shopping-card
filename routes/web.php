@@ -18,7 +18,7 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
-//Route::get('cart', [CartController::class, 'store'])->name('cart.index');
+Route::any('cart', [CartController::class, 'store'])->name('cart.index');
 Route::post('cart', [CartController::class, 'store'])->name('cart.store');
 //Route::get('/purchase', [ProductController::class, 'purchase']);
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
