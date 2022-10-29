@@ -29,16 +29,20 @@ import Navbar from "@/Layouts/Navbar.vue";
                         ></span>
 
                         <!-- Dropdown menu -->
-                        <div>Selected: {{ selected }}</div>
+                        <div class="inline-block relative w-64 ml-5">
+                            <select v-model="quantity" class="block appearance-none w-auto bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                                <option selected="selected">1</option>
+                                <option v-for="quantity in quantities" v-bind:value="quantity">
+                                    {{ quantity }}
+                                </option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>
+                            </div>
+                        </div>
 
-                        <select v-model="selected">
-<!--                            <option disabled value="">Please select one</option>-->
-<!--                            <option>A</option>                            <option>B</option>-->
-<!--                            <option>C</option>-->
-
-
-                        </select>
-
+                    </div>
+                    <div class="flex mt-6 pt-4 border-t-2 border-gray-200">
                         <button
                             class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
                             @click="addToCard"
@@ -51,14 +55,18 @@ import Navbar from "@/Layouts/Navbar.vue";
 </template>
 
 <script>
+//import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+//import { ChevronDownIcon } from '@vue-hero-icons/outline'
 
 export default {
     name: "Show.vue",
+    // components: {
+    //     Menu, MenuButton, MenuItem, MenuItems
+    // },
     data() {
         return {
-            selected: '',
-            quantity: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
-            //quantity: 1,
+            quantity: 1,
+            quantities: [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
             form: this.$inertia.form({
                 id: this.product.id,
                 name: this.product.name,

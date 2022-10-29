@@ -19,13 +19,19 @@ class ProductFactory extends Factory
     public function definition()
     {
         $productPrefixes = ['Sweater', 'Pants', 'Shirt', 'Hat', 'Glasses', 'socks'];
-        $name = $this->faker->company . ' '. Arr::random($productPrefixes);
+        $name = fake()->company . ' '. Arr::random($productPrefixes);
 
         return [
             'name' => $name,
             'slug' => Str::slug($name), //slug should match the name
-            'description' => $this->faker->text(),
-            'price' => $this->faker->numberBetween(10000, 100000)
+            'in_stock' => 1,
+            'details' => fake()->text(),
+            'description' => fake()->text(),
+            'product_code' => fake()->randomDigit(),
+            'image' => fake()->imageUrl,
+            'price' => fake()->numberBetween(10000, 100000),
+            'quantity' => fake()->numberBetween(1, 20)
         ];
+
     }
 }

@@ -44,7 +44,7 @@
             <div v-for="categories in category">
                 <ul>
                     <li>
-                        <a>{{ categories.name }}</a>
+                        <a >{{ categories.name }}</a>
                     </li>
 
                     <div v-for="category in categories.children">
@@ -98,6 +98,11 @@ export default {
             document.getElementById("mySidenav").style.width = "0";
         }
     },
+    computed: {
+        showCategory() {
+            this.category = this.$inertia.get(this.route('category.index'))
+        },
+    }
 }
 </script>
 
@@ -144,5 +149,4 @@ export default {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
 }
-
 </style>

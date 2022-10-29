@@ -6,10 +6,11 @@
         <div v-for="product in products" :key="product.id">
             <div class="m-4 bg-white rounded shadow overflow-hidden" @click="showProduct(product)">
                 <div class="p-4">
-                    <div class="font-semibold text-sm">{{ product.name }}</div>
-                    <div class="text-xs text-gray-500">{{ product.description }}</div>
+                    <img class="mb-4" src="https://via.placeholder.com/180x140">
+                    <div class="font-semibold text-sm font-mont">{{ product.name }}</div>
+                    <div class="mt-3 text-xs text-gray-500 font-mont">{{ product.description }}</div>
                 </div>
-                <div class="border-t px-4 py-2 fonr-bold text-sm">{{ formatCurrency(product.price) }}</div>
+                <div class="border-t px-4 py-2 fonr-bold text-sm font-mont">{{ formatCurrency(product.price) }}</div>
             </div>
         </div>
     </div>

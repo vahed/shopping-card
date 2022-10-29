@@ -23,7 +23,7 @@ Route::post('cart', [CartController::class, 'store'])->name('cart.store');
 //Route::get('/purchase', [ProductController::class, 'purchase']);
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/show/{id}', [ProductController::class, 'show'])->name('products.show');
-Route::any('/category', [CategoryController::class, 'index'])->name('category');
+Route::any('/', [CategoryController::class, 'index'])->name('category.index');
 Route::any('/category/create', [CategoryController::class, 'createCategory'])->name('createCategory');
 Route::get('/', function () {
     return Inertia::render('Welcome', [

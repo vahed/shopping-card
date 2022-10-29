@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
+            $table->string('category_code'); //attach each product
             //$table->integer('parent_id')->nullable();
             $table->timestamps();
         });
