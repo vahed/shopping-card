@@ -30,7 +30,9 @@ class ProductFactory extends Factory
             'product_code' => fake()->randomDigit(),
             'image' => fake()->imageUrl,
             'price' => fake()->numberBetween(10000, 100000),
-            'quantity' => fake()->numberBetween(1, 20)
+            'quantity' => fake()->numberBetween(1, 20),
+            'category_id' => fake()->numberBetween(1,20),
+            'brand_id' => fake()->numberBetween(1,10)
         ];
 
     }

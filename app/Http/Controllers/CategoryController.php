@@ -10,15 +10,32 @@ use function Termwind\render;
 class CategoryController extends Controller
 {
     /**
-     * get all the categories
+     * Get all the categories
      * @return \Inertia\Response
      */
     public function index()
     {
-        //$category = Category::getCategory();
-        $category = Category::all();
+        $category = Category::getCategory();
+        //$category = Category::all();
 
-        return Inertia::render('Welcome', [ 'category' => $category  ]);
+        return Inertia::render('Products/Category', [ 'category' => $category  ]);
+    }
+
+    /**
+     * Get product by category
+     * @param $id
+     * @return \Inertia\Response
+     */
+    public function productByCategory($id)
+    {
+        $productsByCategory = Category::findOrFail($id)->products;
+
+        if($productsByCategory){
+            return Inertia::render('Products/ProductsByCategory', ['productsByCategory' => $productsByCategory]);
+        }
+        else{
+            return redirect()->route('Products/ProductsByCategory')->with('message', 'There is no product for this category');
+        }
     }
 
     /**

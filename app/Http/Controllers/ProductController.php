@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\In;
 use Inertia\Inertia;
 
 class ProductController extends Controller
@@ -15,6 +17,7 @@ class ProductController extends Controller
 
         return Inertia::render('Welcome', [ 'products' => $products ]);
     }
+
 
     public function show($id)
     {

@@ -3,6 +3,7 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Models\Category;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,14 +24,15 @@ Route::post('cart', [CartController::class, 'store'])->name('cart.store');
 //Route::get('/purchase', [ProductController::class, 'purchase']);
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/show/{id}', [ProductController::class, 'show'])->name('products.show');
-Route::any('/', [CategoryController::class, 'index'])->name('category.index');
+//Route::get('/productByCategory', [CategoryController::class, 'productByCategory'])->name('category.productByCategory');
+Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
+Route::get('/productByCategory/{id}', [CategoryController::class, 'productByCategory'])->name('category.productByCategory');
 Route::any('/category/create', [CategoryController::class, 'createCategory'])->name('createCategory');
 Route::get('/', function () {
     return Inertia::render('Welcome', [
+        'category' => Category::all(),
         'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION
+        'canRegister' => Route::has('register')
     ]);
 });
 

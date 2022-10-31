@@ -15,8 +15,35 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
+
+
         Category::factory()
             ->times(4)
             ->create();
+
+        for($i=0; $i<8; $i++) {
+            $subCategory = ['Shoes', 'Pant', 'Jackets', 'Boots', 'hats', 'gloves', 'socks', 'underwear'];
+            $subCategoryName = fake()->unique()->randomElement($subCategory);
+
+            Category::create([
+                'name' => $subCategoryName,
+                'slug' => fake()->unique()->name,
+                'category_code' => fake()->countryCode(),
+                'parent_id' => fake()->numberBetween(1, 4)
+            ]);
+        }
+
+        for($j=0; $j<8; $j++) {
+            $subCategoryList = ['xx small','extra-small', 'small', 'medium', 'large', 'x-large', 'xx large', 'baggy'];
+            $subCategoryListName = fake()->randomElement($subCategoryList);
+
+            Category::create([
+                'name' => $subCategoryListName,
+                'slug' => fake()->unique()->name,
+                'category_code' => fake()->countryCode(),
+                'parent_id' => fake()->numberBetween(5, 8)
+            ]);
+        }
+
     }
 }

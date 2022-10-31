@@ -25,8 +25,8 @@ return new class extends Migration
             $table->unsignedBigInteger('price')->default(0);
             $table->unsignedBigInteger('quantity')->default(0);
 //            $table->string('shopping_cost');
-//            $table->string('category_id');
-//            $table->string('brand_id');
+            $table->string('category_id');
+            $table->string('brand_id');
 //            $table->tinyText('image_path');
             $table->timestamps();
         });

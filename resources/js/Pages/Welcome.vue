@@ -1,9 +1,9 @@
 <script setup>
 import { Head, Link } from '@inertiajs/inertia-vue3';
-import Product from '../Components/Products/Product.vue';
+import Product from './Products/Product.vue';
 import Footer from '@/Layouts/Footer.vue';
 import Navbar from "@/Layouts/Navbar.vue";
-import Category from "../Components/Products/Category.vue";
+import Category from "./Products/Category.vue";
 
 defineProps({
     canLogin: Boolean,

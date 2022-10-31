@@ -17,13 +17,15 @@ class CategoryFactory extends Factory
      */
     public function definition()
     {
-        $nameArr = ['Women', 'Men', 'Kids', 'Home Goods'];
+        $nameArr = ['Women', 'Men', 'Kids', 'Teenager'];
         $name = fake()->unique()->randomElement($nameArr);//trim(Arr::random($nameArr));
+
         return [
             'name' => $name,
             'slug' => fake()->unique()->name,
-            'category_code' => fake()->countryCode()
-            //'parent_id' => $this->faker->numberBetween(1, 8),
+            'category_code' => fake()->countryCode(),
+            'parent_id' => null,
         ];
+
     }
 }
