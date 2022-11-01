@@ -3,11 +3,11 @@
     <h2 class="text-4xl font-bold text-center text-gray-800 mb-8">
         Products
     </h2>
-    <div class="grid grid-cols-4">
+    <div class="grid xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
         <div v-for="product in productsByCategory" :key="product.id">
             <div class="m-4 bg-white rounded shadow overflow-hidden" @click="showProduct(product)">
                 <div class="p-4">
-                    <img class="mb-4" src="https://via.placeholder.com/180x140">
+                    <img class="mb-4" src="https://via.placeholder.com/440x200">
                     <div class="font-semibold text-sm font-mont">{{ product.name }}</div>
                     <div class="mt-3 text-xs text-gray-500 font-mont">{{ product.description }}</div>
                 </div>

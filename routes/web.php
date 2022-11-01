@@ -3,6 +3,7 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use App\Models\Category;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
@@ -19,6 +20,7 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::any('home', [UserController::class, 'index'])->name('home.index');
 Route::any('cart', [CartController::class, 'store'])->name('cart.index');
 Route::post('cart', [CartController::class, 'store'])->name('cart.store');
 //Route::get('/purchase', [ProductController::class, 'purchase']);

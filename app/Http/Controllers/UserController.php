@@ -7,8 +7,8 @@ use Inertia\Inertia;
 
 class UserController extends Controller
 {
-    public function purchase()
+    public function index()
     {
-        return Inertia::render('Welcome', );
+        return Inertia::render('Welcome');
     }
 }

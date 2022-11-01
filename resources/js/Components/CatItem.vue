@@ -25,15 +25,17 @@ const hasActiveChild = computed(() => {
             'hover:bg-gray-100',
             open ? 'font-semibold text-gray-800' : 'font-medium text-gray-600']"
         >
-            <component :class="['w-6 h-6 shrink-0 mr-2 group-hover:text-gray-600',
-                open ? 'text-gray-600' : 'text-gray-400']"
-                :is="item.icon"
-                v-if="item.icon"
-            >
-            </component>
+<!--            <component :class="['w-6 h-6 shrink-0 mr-2 group-hover:text-gray-600',-->
+<!--                open ? 'text-gray-600' : 'text-gray-400']"-->
+<!--                :is="item.icon"-->
+<!--                v-if="item.icon"-->
+<!--            >-->
+<!--            </component>-->
+
             <span class="flex-1" v-if="item.children.length === 0" @click="productByCategory(item.id)">{{ item.name }}</span>
             <span class="flex-1 font-black" v-if="item.children.length !== 0" >{{ item.name }}</span>
-            <ChevronDownIcon
+
+                <ChevronDownIcon
                 v-if="item.children.length !== 0"
                 :class="['h-6 w-6 shrink-0',
                 open ? '-rotate-180 text-gray-600' : 'text-gray-400']"
@@ -52,6 +54,9 @@ const hasActiveChild = computed(() => {
 
 <script>
 export default {
+    data: () => ({
+        item:{children: Object}
+    }),
     methods: {
         productByCategory(category_id) {
             console.log('This is a test');

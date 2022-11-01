@@ -15,7 +15,7 @@ class ProductController extends Controller
         $products = Product::with('categories:id,name')
             ->get();
 
-        return Inertia::render('Welcome', [ 'products' => $products ]);
+        return Inertia::render('Products/Product', [ 'products' => $products ]);
     }
 
 
