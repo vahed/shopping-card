@@ -10,6 +10,7 @@ import Navbar from "@/Layouts/Navbar.vue";
         <div class="container mx-auto">
             <div class="flex flex-wrap">
                 <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/640x640">
+
                 <div v-for="products in product" class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                     <div class="grid grid-cols-2 gap-4">
                         <div class="title-font font-medium text-2xl text-gray-900 float-right">{{ products.name }}</div>
@@ -52,8 +53,14 @@ import Navbar from "@/Layouts/Navbar.vue";
                     <div class="flex mt-6 pt-4 border-t-2 border-gray-200">
                         <button
                             class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                            @click="addToCard"
+                            @click="addToCard(products)"
                         >Add To Cart</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-4 gap-4 lg:w-1/2 w-full">
+                    <div v-for="(img, i) in images" :key="i">
+                        <img :src="img" alt="First slide" />
                     </div>
                 </div>
             </div>
@@ -73,6 +80,11 @@ export default {
     // },
     data() {
         return {
+            images: [
+                "https://picsum.photos/id/237/1024/800",
+                "https://picsum.photos/id/238/1024/800",
+                "https://picsum.photos/id/239/1024/800"
+            ],
             quantity: 1,
             quantities: [2,3,4,5,6,7,8,9,10],
             form: this.$inertia.form({
@@ -99,17 +111,24 @@ export default {
             price = (price /100);
             return price.toLocaleString('en-GB', { style: 'currency', currency: 'GBP'})
         },
-        addToCard() {
+        addToCard(products) {
+            console.log(products.id)
+            console.log(products.name)
+            console.log(products.product_code)
+            console.log(products.description)
+            console.log(products.image)
+            console.log(this.quantity)
+            console.log(products.slug)
             this.$inertia.post(this.route('cart.store', {
-                id: 2,//this.product.id,
-                name: 'sweater',//this.product.name,
-                price: 19000,//this.product.price,
-                product_code: 123455,//this.product.product_code,
-                details: 'more details',//this.product.details,
-                image: 'image1.png',//this.product.image,
-                slug: 'sweater',//this.product.slug,
-                quantity: 1,
-                totalQty: 3//this.product.quantity
+                id: products.id,
+                name: products.name,
+                price: products.price,
+                product_code: 123455,
+                details: products.description,
+                image: products.image,
+                slug: products.slug,
+                quantity: products.quantity,
+                totalQty: products.quantity
             }))
         },
         checkQty(qty) {
