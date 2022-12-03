@@ -11,57 +11,67 @@ defineProps({
                 class="text-sm title-font text-gray-500 tracking-widest"
                 v-text="'Transaction ID: ' + order.transaction_id"
             ></h2> -->
-            {{orderTotalQuantity}}
-            <p>{{orderTotalPrice}}</p>
+
             <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">Thank you for your purchase</h1>
-            <table class="table-auto w-full text-left whitespace-no-wrap">
-                <thead>
-                <tr>
-                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-200 rounded-tl rounded-bl">Item</th>
-                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-200">Quantity</th>
-                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-200">Price</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="item in cartItems" :key="item.id">
-                    <td class="p-4" v-text="item.name"></td>
-                    <td class="p-4" v-text="item.qty"></td>
-                    <td class="p-4" v-text="cartLineTotal(item)"></td>
-                </tr>
-                <tr>
-                    <td class="p-4 font-bold">Total Amount</td>
-                    <td class="p-4 font-bold" v-text="orderTotalQuantity"></td>
-                    <td class="p-4 font-bold" v-text="orderTotalPrice"></td>
-                </tr>
-                </tbody>
-            </table>
+            <form name="form">
+                <table class="table-auto w-full text-left whitespace-no-wrap">
+                    <thead>
+                    <tr>
+                        <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-200 rounded-tl rounded-bl">Item</th>
+                        <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-200">Quantity</th>
+                        <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-200">Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="item in cartItems" :key="item.id">
+                        <td class="p-4" v-text="item.name"></td>
+                        <td class="p-4" v-text="item.qty"></td>
+                        <!-- <td class="p-4" :v-text="cartLineTotal(item)"></td> -->
+                        <td class="p-1"><Link @click="$emit('incrementByOne', item)" preserve-state>Inc</Link></td>
+                        <td class="p-1"><Link @click="$emit('decrementByOne', item)" preserve-state>Dec</Link></td>
+                        <td class="p-1"><Link @click="$emit('deleteItem', item)" preserve-state>Del</Link></td>
+                    </tr>
+                    <tr>
+                        <td class="p-4 font-bold">Total Amount</td>
+                        <td class="p-4 font-bold" v-text="orderTotalQuantity"></td>
+                        <td class="p-4 font-bold" v-text="orderTotalPrice"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
         </div>
     </div>
 </template>
 
 <script>
+import { Link } from '@inertiajs/inertia-vue3'
+
 export default {
+    
+    data() {
+        return {
+            //item: 0,
+        };
+    },
+    // remember: {
+    //     data: [ 'cartItems', 'getSummay', 'orderTotalQuantity', 'convertCartItemToArray', 'orderTotalPrice' ],
+    // },
     name: "Summary.vue",
+    components: {
+        Link
+    },
     props: {
-        cartItems: Object,
         errors: Object,
         message: Object
     },
-    methods: {
-        cartLineTotal(item) {
-            let amount = item.price * item.qty;
-            amount = (amount / 100);
-            return amount.toLocaleString('en-GB', { style: 'currency', currency: 'GBP' });
-        }
-        
-    },
     computed: {
         getSummay() {
-            this.$inertia.get(this.route('cart.index'))
+            this.$inertia.get(this.route('cart.index'),{
+                preserveScroll: true,
+                preserveState: true,
+                resetOnSuccess: false
+            })
         },
-        // order() {
-        //     return this.$store.state.order;
-        // },
         orderTotalQuantity() {
 
             let itemsToArray = this.convertCartItemToArray 
@@ -102,11 +112,11 @@ export default {
 
             return totalAmount.toLocaleString('en-GB', { style: 'currency', currency: 'GBP' });
 
-        },
+        }
     },
     created() {
-        return this.cartItems
-    }
+        this.cartItems
+    },
 }
 </script>
 

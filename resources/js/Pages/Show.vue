@@ -11,7 +11,7 @@ import Navbar from "@/Layouts/Navbar.vue";
             <div class="flex flex-wrap">
                 <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/640x640">
 
-                <div v-for="products in product" class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+                <div v-for="(products, key) in product" class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0" :key="key">
                     <div class="grid grid-cols-2 gap-4">
                         <div class="title-font font-medium text-2xl text-gray-900 float-right">{{ products.name }}</div>
                         <!-- ... -->
@@ -39,7 +39,7 @@ import Navbar from "@/Layouts/Navbar.vue";
                         <div class="float-right text-right mt-4">
                                 <select v-model="quantity" class="float-right appearance-none w-auto bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
                                     <option selected="selected">1</option>
-                                    <option v-for="quantity in quantities" v-bind:value="quantity">
+                                    <option v-for="(quantity, key) in quantities" :value="quantity" :key="key">
                                         {{ quantity }}
                                     </option>
                                 </select>
@@ -53,7 +53,7 @@ import Navbar from "@/Layouts/Navbar.vue";
                     <div class="flex mt-6 pt-4 border-t-2 border-gray-200">
                         <button
                             class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                            @click="addToCard(products)"
+                            @click.prevent="addToCard(products)"
                         >Add To Cart</button>
                     </div>
                 </div>
@@ -80,24 +80,14 @@ export default {
     // },
     data() {
         return {
+            totQty: null,
             images: [
                 "https://picsum.photos/id/237/1024/800",
                 "https://picsum.photos/id/238/1024/800",
                 "https://picsum.photos/id/239/1024/800"
             ],
             quantity: 1,
-            quantities: [2,3,4,5,6,7,8,9,10],
-            form: this.$inertia.form({
-                id: this.product.id,
-                name: this.product.name,
-                price: this.product.price,
-                product_code: this.product.product_code,
-                details: this.product.details,
-                image: this.product.image,
-                slug: this.product.slug,
-                quantity: 1,
-                totalQty: this.product.quantity
-            })
+            quantities: [2,3,4,5,6,7,8,9,10]
         }
     },
     props: {
@@ -112,13 +102,6 @@ export default {
             return price.toLocaleString('en-GB', { style: 'currency', currency: 'GBP'})
         },
         addToCard(products) {
-            console.log(products.id)
-            console.log(products.name)
-            console.log(products.product_code)
-            console.log(products.description)
-            console.log(products.image)
-            console.log(this.quantity)
-            console.log(products.slug)
             this.$inertia.post(this.route('cart.store', {
                 id: products.id,
                 name: products.name,
@@ -127,8 +110,12 @@ export default {
                 details: products.description,
                 image: products.image,
                 slug: products.slug,
-                quantity: products.quantity,
+                quantity: this.quantity,
                 totalQty: products.quantity
+            }, {
+                preserveScroll: true,
+                preserveState: true,
+                resetOnSuccess: false
             }))
         },
         checkQty(qty) {

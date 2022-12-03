@@ -21,8 +21,14 @@ use Inertia\Inertia;
 |
 */
 Route::any('home', [UserController::class, 'index'])->name('home.index');
+
 Route::get('cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('cart', [CartController::class, 'store'])->name('cart.store');
+Route::put('/cart/update/{id}',[CartController::class, 'update'])->name('cart.update');
+Route::put('/cart/{id}/increment',[CartController::class, 'incrementItem'])->name('cart.incrementItem');
+Route::put('/cart/{id}/decrement',[CartController::class, 'decrementItem'])->name('cart.decrementItem');
+Route::delete('/cart/{id}/delete',[CartController::class, 'destroy'])->name('cart.delete');
+
 //Route::get('/purchase', [ProductController::class, 'purchase']);
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/show/{id}', [ProductController::class, 'show'])->name('products.show');
@@ -43,3 +49,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+
+// Route::get('/todos', [ToDoItemController::class, 'index'])->name('todos');
+// Route::post('/todos', [ToDoItemController::class, 'store'])->name('todos.store');
+// Route::put('/todos/{todo}/update',[ToDoItemController::class,'update'])->name('todos.update');
+// Route::delete('/todos/{todo}',[ToDoItemController::class,'destroy'])->name('todos.destroy');

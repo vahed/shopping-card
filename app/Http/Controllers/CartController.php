@@ -13,7 +13,7 @@ class CartController extends Cart
     {
         $cartItem = Cart::content();
 
-        return Inertia::render('Cart/Cart', ['cartItem', $cartItem]);
+        return Inertia::render('Products/Cart', ['cartItem', $cartItem]);
     }
 
     // public function index(CartService $cartService) {
@@ -33,6 +33,22 @@ class CartController extends Cart
 
     public function store(Request $request)
     {
+        //dd($request->id);
+        //$cart = Cart::search('a5210b8fa526d18d5551a9a1209ec314');
+        $cartItems = Cart::content();
+//dd($cartItems);
+foreach($cartItems as $key => $items ) {
+    //dd($items->rowId, $items->id, $request->id);
+    if ($items->id === $request->id){
+        //dd($cartItems->rowId);
+        //dd('yes this item exists');
+        Cart::instance()->update(
+            $items->rowId, $request->quantity
+        );
+    }
+}
+        
+        
 
         $cartItems = Cart::instance()->add(
             $request->id,
@@ -41,7 +57,7 @@ class CartController extends Cart
             $request->price,
             0,
             [
-                'totalQty' => $request->totalQty,
+                'totalQty' => $request->quantity,
                 'product_code' => $request->product_code,
                 'image' => $request->image,
                 'slug' => $request->slug,
@@ -52,7 +68,7 @@ class CartController extends Cart
         // redirect()->route('cart.index');
         $cartItems = Cart::content();
 
-        return Inertia::render('Cart/Cart', [ 'cartItems' => $cartItems ]);
+        return Inertia::render('Products/Cart', [ 'cartItems' => $cartItems ]);
     }
 
     // public function cart()
@@ -85,8 +101,27 @@ class CartController extends Cart
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        Cart::instance('default')->update($id, $request->quantity);
-        return back();
+        
+        // Cart::instance()->update($id, $request->price);
+        // return back();
+    }
+
+    public function incrementItem(Request $request, $id) {
+        $request->qty++;
+        Cart::instance()->update($id, $request->qty);
+
+        $cartItems = Cart::content();
+
+        return Inertia::render('Products/Cart', [ 'cartItems' => $cartItems ]);
+    }
+
+    public function decrementItem(Request $request, $id) {
+        $request->qty--;
+        Cart::instance()->update($id, $request->qty);
+
+        $cartItems = Cart::content();
+
+        return Inertia::render('Products/Cart', [ 'cartItems' => $cartItems ]);
     }
 
     /**
@@ -95,8 +130,11 @@ class CartController extends Cart
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
-        Cart::instance('default')->remove($id);
-        return back();
+    public function destroy(Request $request, $id) {
+        Cart::remove($id, $request->id);
+        //return back();
+        $cartItems = Cart::content();
+
+        return Inertia::render('Products/Cart', [ 'cartItems' => $cartItems ]);
     }
 }
