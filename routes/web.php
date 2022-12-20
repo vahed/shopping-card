@@ -49,9 +49,3 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';
-
-
-// Route::get('/todos', [ToDoItemController::class, 'index'])->name('todos');
-// Route::post('/todos', [ToDoItemController::class, 'store'])->name('todos.store');
-// Route::put('/todos/{todo}/update',[ToDoItemController::class,'update'])->name('todos.update');
-// Route::delete('/todos/{todo}',[ToDoItemController::class,'destroy'])->name('todos.destroy');

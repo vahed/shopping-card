@@ -7,17 +7,22 @@ import Category from "./Products/Category.vue";
 
 defineProps({
     canLogin: Boolean,
-    canRegister: Boolean,
+    canRegister: Boolean
 })
 
 </script>
 
 <template>
+    <div class="trigger" @click="toggle">Menu</div>
     <Head title="Welcome" />
-
+    <!-- <cart-button></cart-button> -->
     <!-- Navbar -->
     <Navbar />
-
+    
+    <div class="menu">
+        <Category :categoryItems = "$page.props.categoryItems"/>
+    </div>
+    
     <!--Head -->
 <!--    <div class="py-20" style="background: linear-gradient(90deg, #667eea 0%, #764ba2 100%)">-->
 <!--        <div class="container mx-auto px-6">-->
@@ -42,6 +47,7 @@ defineProps({
 
     <Carousel />
 
+    
     <!-- main -->
 <!--    <section class="container mx-auto px-6 p-10">-->
 <!--        <Product :products="products" />-->
@@ -58,12 +64,53 @@ defineProps({
 
 <script>
 import Carousel from '../Components/Carousel.vue'
+import Cat from './Products/Category.vue'
+
 export default {
     components : {
-        Carousel
+        Carousel,
+        Cat
+    },
+    props: {
+        category: Object
+    },
+    methods: {
+        toggle() {
+            const menu = document.querySelector('.menu');
+            const trigger = document.querySelector('.trigger');
+            menu.classList.toggle('menu--open');
+
+            trigger.addEventListener('click', toggle);
+        }
     }
 }
 </script>
 <style scoped>
+body {
+  margin: 0;
+}
 
+.menu {
+  top: 0;
+  height: 100vh;
+  box-sizing: border-box;
+  margin-left: -320px;
+  width: 320px;
+  background-color:#FFF;
+  /* transition: all .3s; */
+  transition: 0.2s ease-in-out;
+  padding: 1rem;
+  z-index: 2 !important;
+  position:absolute;
+  border-color: black;
+}
+
+.menu--open {
+  margin-left: 0;
+}
+
+a {
+  color: #FFF;
+  display: block;
+}
 </style>

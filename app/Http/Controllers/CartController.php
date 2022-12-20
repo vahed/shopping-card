@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use App\Http\Repository\ProductRepository;
 use Inertia\Inertia;
 use Redirect;
 
@@ -11,9 +12,11 @@ class CartController extends Cart
 {
     public function index()
     {
-        $cartItem = Cart::content();
+        $cartItems = Cart::content();
 
-        return Inertia::render('Products/Cart', ['cartItem', $cartItem]);
+        return Inertia::render('Products/Cart', [
+            'cartItems' => $cartItems
+        ]);
     }
 
     // public function index(CartService $cartService) {
@@ -33,24 +36,20 @@ class CartController extends Cart
 
     public function store(Request $request)
     {
-        //dd($request->id);
-        //$cart = Cart::search('a5210b8fa526d18d5551a9a1209ec314');
         $cartItems = Cart::content();
-//dd($cartItems);
-foreach($cartItems as $key => $items ) {
-    //dd($items->rowId, $items->id, $request->id);
-    if ($items->id === $request->id){
-        //dd($cartItems->rowId);
-        //dd('yes this item exists');
-        Cart::instance()->update(
-            $items->rowId, $request->quantity
-        );
-    }
-}
+
+        // foreach($cartItems as $key => $items ) {
+
+        //     if ($items->id === $request->id){
+        //         Cart::instance()->update(
+        //             $items->rowId, $request->quantity
+        //         );
+        //     }
+        // }
         
         
 
-        $cartItems = Cart::instance()->add(
+        $cartItems = Cart::instance('default')->add(
             $request->id,
             $request->name,
             $request->quantity,
@@ -65,10 +64,7 @@ foreach($cartItems as $key => $items ) {
             ]
         )->associate('App\Models\Product');
 
-        // redirect()->route('cart.index');
-        $cartItems = Cart::content();
-
-        return Inertia::render('Products/Cart', [ 'cartItems' => $cartItems ]);
+        return redirect()->route('cart.index');
     }
 
     // public function cart()
@@ -106,22 +102,25 @@ foreach($cartItems as $key => $items ) {
         // return back();
     }
 
-    public function incrementItem(Request $request, $id) {
+    public function incrementItem(ProductRepository $productRepository, Request $request, $id) {
+
+        $existingQuantity = $productRepository->getQuantity($id);
+
+        if($request->qty >= $existingQuantity){
+            return back()->withError(['errors', "The quantity requested is not available"]);
+        }
+
         $request->qty++;
         Cart::instance()->update($id, $request->qty);
 
-        $cartItems = Cart::content();
-
-        return Inertia::render('Products/Cart', [ 'cartItems' => $cartItems ]);
+        return redirect()->route('cart.index');
     }
 
     public function decrementItem(Request $request, $id) {
         $request->qty--;
         Cart::instance()->update($id, $request->qty);
 
-        $cartItems = Cart::content();
-
-        return Inertia::render('Products/Cart', [ 'cartItems' => $cartItems ]);
+        return redirect()->route('cart.index');
     }
 
     /**
@@ -132,9 +131,7 @@ foreach($cartItems as $key => $items ) {
      */
     public function destroy(Request $request, $id) {
         Cart::remove($id, $request->id);
-        //return back();
-        $cartItems = Cart::content();
 
-        return Inertia::render('Products/Cart', [ 'cartItems' => $cartItems ]);
+        return redirect()->route('cart.index');
     }
 }

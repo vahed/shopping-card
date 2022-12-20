@@ -2,18 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use Inertia\Inertia;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\In;
-use Inertia\Inertia;
+use App\Http\Repository\ProductRepository;
 
 class ProductController extends Controller
 {
+    private $productRepository;
+
+    public function __construct(ProductRepository $productRepository) 
+    {
+        $this->productRepository = $productRepository;
+    }
+
     public function index()
     {
-        $products = Product::with('categories:id,name')
-            ->get();
+        $products = $this->productRepository->showProductWithCategory();
 
         return Inertia::render('Products/Product', [ 'products' => $products ]);
     }
@@ -21,9 +28,9 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::where('id', '=', $id)
-            ->with('categories:id,name')
-            ->get();
+        $productRepository = new ProductRepository;
+
+        $product = $this->productRepository->showProductById($id);
 
         return Inertia::render('Show', [ 'product' => $product ]);
     }

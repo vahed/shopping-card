@@ -1,51 +1,46 @@
-<script setup>
-import CatItem from "@/Components/CatItem.vue";
-
-defineProps({
-    category: Object
-})
-
-</script>
 <template>
-        <div class="flex min-h-screen">
+        <!-- <div class="flex min-h-screen">
             <div class="w-64 shrink-0 bg-gray-50 border-r border-gray-200 py-4">
                 <div class="px-4">
                     <a class="inline-block" href="#">
                         <Logo class="h-8 w-auto" />
                     </a>
-                </div>
+                </div> -->
 
                 <nav role="navigation">
                     <!-- pass item as prop to CatItem -->
-                    <CatItem :item="item" v-for="item in category">
+                    <CatItem :item="item" v-for="item in categoryItems" :key="item.id">
                     </CatItem>
                 </nav>
-            </div>
+
+
+            <!-- </div>
 
             <main class="p-4"></main>
-        </div>
+        </div> -->
 
 </template>
 
 <script>
-import {Head} from "@inertiajs/inertia-vue3";
+import {Head} from "@inertiajs/inertia-vue3"
 import { ref } from 'vue'
-
-// const display = ref('none')
+import CatItem from "../../Components/CatItem.vue"
 
 export default {
     name: "Category.vue",
-    data() {
-        return {
-            // display: 'none',
+    computed: {
+        categoryItems() {
+            return this.$page.props.categoryItems
         }
     },
     components: {
-        Head
+        Head,
+        CatItem
     },
     props: {
         category: Object,
-    },
+        categoryItems: Object
+    }
 }
 </script>
 

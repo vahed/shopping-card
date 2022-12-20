@@ -8,6 +8,10 @@ import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 
 const form = useForm({
     name: '',
+    address: '',
+    city: '',
+    county: '',
+    postcode: '',
     email: '',
     password: '',
     password_confirmation: '',
@@ -32,9 +36,33 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.name" />
             </div>
 
+            <div>
+                <InputLabel for="address" value="Address" />
+                <TextInput id="address" type="text" class="mt-1 block w-full" v-model="form.address" required autofocus autocomplete="address" />
+                <InputError class="mt-2" :message="form.errors.address" />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel for="city" value="City" />
+                <TextInput id="city" type="text" class="mt-1 block w-full" v-model="form.city" required autocomplete="city" />
+                <InputError class="mt-2" :message="form.errors.city" />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel for="county" value="County" />
+                <TextInput id="county" type="text" class="mt-1 block w-full" v-model="form.county" required autocomplete="county" />
+                <InputError class="mt-2" :message="form.errors.county" />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel for="postcode" value="Postcode" />
+                <TextInput id="postcode" type="text" class="mt-1 block w-full" v-model="form.postcode" required autocomplete="postcode" />
+                <InputError class="mt-2" :message="form.errors.postcode" />
+            </div>
+
             <div class="mt-4">
                 <InputLabel for="email" value="Email" />
-                <TextInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autocomplete="username" />
+                <TextInput id="email" type="text" class="mt-1 block w-full" v-model="form.email" required autocomplete="email" />
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 

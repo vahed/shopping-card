@@ -25,6 +25,7 @@
         "@heroicons/vue": "^2.0.12",
         "@popperjs/core": "^2.11.6",
         "@vue-hero-icons/outline": "^1.7.2",
-        "@vue-hero-icons/solid": "^1.7.2"
+        "@vue-hero-icons/solid": "^1.7.2",
+        "vuex": "^4.0.2"
     }
 }

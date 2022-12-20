@@ -48,14 +48,6 @@ import { Link } from '@inertiajs/inertia-vue3'
 
 export default {
     
-    data() {
-        return {
-            //item: 0,
-        };
-    },
-    // remember: {
-    //     data: [ 'cartItems', 'getSummay', 'orderTotalQuantity', 'convertCartItemToArray', 'orderTotalPrice' ],
-    // },
     name: "Summary.vue",
     components: {
         Link
@@ -65,13 +57,6 @@ export default {
         message: Object
     },
     computed: {
-        getSummay() {
-            this.$inertia.get(this.route('cart.index'),{
-                preserveScroll: true,
-                preserveState: true,
-                resetOnSuccess: false
-            })
-        },
         orderTotalQuantity() {
 
             let itemsToArray = this.convertCartItemToArray 
@@ -104,7 +89,7 @@ export default {
             for(let i in itemsToArray){
                 amount = Number(itemsToArray[i]['price'])
                 quantity = Number(itemsToArray[i]['qty'])
-                console.log(quantity)
+                //console.log(quantity)
                 totalAmount += amount * quantity;    
             }
             
@@ -123,3 +108,4 @@ export default {
 <style scoped>
 
 </style>
+ 
