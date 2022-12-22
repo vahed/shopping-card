@@ -16,8 +16,7 @@ class CategoryController extends Controller
     public function index()
     {
         $category = Category::getCategory();
-        //$category = Category::all();
-        dd($category);
+
         return Inertia::render('Welcome', [ 'category' => $category  ]);
         //return Inertia::render('Products/Category', [ 'category' => $category  ]);
     }

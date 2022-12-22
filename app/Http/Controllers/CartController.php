@@ -104,10 +104,10 @@ class CartController extends Cart
 
     public function incrementItem(ProductRepository $productRepository, Request $request, $id) {
 
-        $existingQuantity = $productRepository->getQuantity($id);
+        $existingQuantity = $productRepository->getQuantity($request);
 
         if($request->qty >= $existingQuantity){
-            return back()->withError(['errors', "The quantity requested is not available"]);
+            return back()->with('error', "Maximum available quantity is $existingQuantity");
         }
 
         $request->qty++;

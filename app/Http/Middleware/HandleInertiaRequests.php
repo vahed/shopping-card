@@ -46,7 +46,12 @@ class HandleInertiaRequests extends Middleware
                 ]);
             },
             'cartCount' => Cart::count(),
-            'categoryItems' => Category::getCategory()
+            'categoryItems' => Category::getCategory(),
+            'flash' => function () use ($request) {
+                return [
+                    'error' => $request->session()->get('error')
+                ];
+            }
         ]);
     }
 }

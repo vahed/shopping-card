@@ -1,35 +1,65 @@
 <script setup>
 defineProps({
-    cartItems: Object,
-    errors: 'This is error'
+    cartItems: Object
 })
 </script>
-<!-- class="flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700" -->
-<!-- class="flex flex-col justify-between p-4 leading-normal" -->
-<!-- class="object-cover w-full h-96 rounded-t-lg md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" -->
+
 <template>
-    <!-- Navbar -->
+
     <Navbar />
+    <div class="m-5" v-if="$page.props.flash.error" id="dialog">
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <span class="block sm:inline">{{ $page.props.flash.error }}</span>
+        </div>
+    </div>
+
     <div class="grid grid-cols-12 mx-2 gap-2">
-        <div class="divide-y divide-solid xl:col-span-8 lg:col-span-8 md:col-span-8 col-span-12">
-            <p class="text-2xl ml-5 font-semibold">Shopping Basket</p>
-            <div v-for="(cartItem, key) in cartItems" :key="key">
-                <a href="#" class="flex m-5">
-                    <img  class="w-1/3" src="https://via.placeholder.com/440x200" alt="">
-                    <div class="w-2/3 ml-3">
-                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ cartItem.name }}</h5>
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ cartItem.details}}</p>
+        <div class="divide-y divide-solid xl:col-span-7 lg:col-span-7 md:col-span-7 col-span-12">
+            <div class="text-2xl ml-5 font-semibold mt-20">Shopping Basket</div>
+            <div class="mt-5" v-if="cartItems.length === 0">
+                <Link :href="route('products.index')">Browse to product page</Link>
+            </div>
+            <div class="flex flex-row mt-5" v-for="(cartItem, key) in cartItems" :key="key">
+                <div class="basis-1/3 md:basis-1/3 px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm rounded-tl rounded-bl font-bold">
+                    <a href="">
+                        <img  class="w-1/3" src="https://via.placeholder.com/440x200" alt=""/>
+                    </a>
+                </div>
+                <div class="basis-1/3 md:basis-1/3 px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm font-bold">
+                    {{ cartItem.name }}
+                    <div class="flex flex-row mt-5">
+                        <div class="basis-1/3" v-text="cartItem.qty">
+                        </div>
+                        <div class="basis-1/3">
+                            <Link @click="incrementCount(cartItem)" preserve-state>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                                </svg>
+                            </Link>
+                        </div>
+                        <div class="basis-1/3">
+                            <Link @click="decrementCount(cartItem)" preserve-state>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                                </svg>
+                            </Link>
+                        </div>
+                        <div class="basis-1/3">
+                            <Link class="text-blue-500" @click="deleteSingleItem(cartItem)" preserve-state>
+                                Delete
+                            </Link>
+                        </div>
                     </div>
-                </a>
+                </div>
             </div>
         </div>
-        <div class="xl:col-span-4 lg:col-span-4 md:col-span-4 col-span-12 bg-green-400">
-            <h1>This is basket summary</h1><p>{{$page.props.errors}}</p>
+        <div class="xl:col-span-5 lg:col-span-5 md:col-span-5 col-span-12">
             <Summary 
                 @increment-by-one="incrementCount($event)" 
                 @decrement-by-one="decrementCount($event)"
                 @delete-item="deleteSingleItem($event)"
                 :cartItems="cartItems"
+                @formatCurrency="formatCurrency($event)"
             >
             </Summary>
         </div>
@@ -44,6 +74,10 @@ import Summary from "@/Pages/Cart/Summary.vue"
 
 export default {
     name: "Cart.vue",
+    data() {
+        return {
+        }
+    },
     components: {
         Navbar,
         Summary,
@@ -78,10 +112,10 @@ export default {
             })
         },
 
-    }
+    },
+    
 }
 </script>
 
 <style scoped>
-
 </style>

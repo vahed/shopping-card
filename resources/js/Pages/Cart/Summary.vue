@@ -7,37 +7,69 @@ defineProps({
 <template>
     <div class="w-full">
         <div class="lg:w-2/3 w-full mx-auto mt-8 overflow-auto">
-            <!-- <h2
-                class="text-sm title-font text-gray-500 tracking-widest"
-                v-text="'Transaction ID: ' + order.transaction_id"
-            ></h2> -->
-
-            <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">Thank you for your purchase</h1>
+            <div class="text-gray-900 text-xl title-font font-medium mb-4 text-center font-bold">Shopping Summary</div>
             <form name="form">
-                <table class="table-auto w-full text-left whitespace-no-wrap">
-                    <thead>
-                    <tr>
-                        <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-200 rounded-tl rounded-bl">Item</th>
-                        <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-200">Quantity</th>
-                        <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-200">Price</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="item in cartItems" :key="item.id">
-                        <td class="p-4" v-text="item.name"></td>
-                        <td class="p-4" v-text="item.qty"></td>
-                        <!-- <td class="p-4" :v-text="cartLineTotal(item)"></td> -->
-                        <td class="p-1"><Link @click="$emit('incrementByOne', item)" preserve-state>Inc</Link></td>
-                        <td class="p-1"><Link @click="$emit('decrementByOne', item)" preserve-state>Dec</Link></td>
-                        <td class="p-1"><Link @click="$emit('deleteItem', item)" preserve-state>Del</Link></td>
-                    </tr>
-                    <tr>
-                        <td class="p-4 font-bold">Total Amount</td>
-                        <td class="p-4 font-bold" v-text="orderTotalQuantity"></td>
-                        <td class="p-4 font-bold" v-text="orderTotalPrice"></td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="flex flex-row">
+                    <div class="basis-1/3 md:basis-1/3 px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm rounded-tl rounded-bl font-bold">Item</div>
+                    <div class="basis-1/3 md:basis-1/3 px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm font-bold">Quantity</div>
+                    <div class="basis-1/3 md:basis-1/3 px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm font-bold">Price</div>
+                    <div class="basis-1/3 md:basis-1/3 px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm font-bold">Actions</div>
+                </div>
+                <div class="divide-y divide-solid m-4">
+                    <div></div>
+                    <div></div>
+                </div>
+                <div class="flex flex-row" v-for="item in cartItems" :key="item.id">
+                    <div class="basis-1/3 md:basis-1/3 px-4 py-3 title-font font-medium text-gray-900 text-sm" v-text="item.name"></div>
+                    <div class="basis-1/3 md:basis-1/3 px-4 py-3 title-font font-medium text-gray-900 text-sm" v-text="item.qty"></div>
+                    <div class="basis-1/3 md:basis-1/3 px-4 py-3 title-font font-medium text-gray-900 text-sm">{{ formatCurrency(item.price) }}</div>
+                    <div class="basis-1/3 md:basis-1/3 px-4 py-3 title-font font-medium text-gray-900 text-sm">
+                        <div class="flex flex-row">
+                                <div class="basis-1/4">
+                                    <Link @click="$emit('incrementByOne', item)" preserve-state>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                                        </svg>
+                                    </Link>
+                                </div>
+                                <div class="basis-1/4">
+                                    <Link @click="$emit('decrementByOne', item)" preserve-state>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                                        </svg>
+                                    </Link>
+                                </div>
+                                <div class="basis-1/4">
+                                    <Link @click="$emit('deleteItem', item)" preserve-state>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="stroke-red-500 w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                        </svg>
+                                    </Link>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <div class="divide-y divide-solid m-4">
+                    <div></div>
+                    <div></div>
+                </div>
+                <div class="flex flex-row">
+                    <div class="basis-1/3 md:basis-1/3 px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm rounded-tl rounded-bl font-bold">Total Quantity</div>
+                    <div class="basis-1/3 md:basis-1/3 px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm font-bold"></div>
+                    <div class="basis-1/3 md:basis-1/3 px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm font-bold"></div>
+                    <div class="basis-1/3 md:basis-1/3 px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm font-bold" v-text="orderTotalQuantity"></div>
+                </div>
+                <div class="flex flex-row">
+                    <div class="basis-1/3 md:basis-1/3 px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm rounded-tl rounded-bl font-bold">Total Amount</div>
+                    <div class="basis-1/3 md:basis-1/3 px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm font-bold"></div>
+                    <div class="basis-1/3 md:basis-1/3 px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm font-bold"></div>
+                    <div class="basis-1/3 md:basis-1/3 px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm font-bold" v-text="orderTotalPrice"></div>
+                </div>
+                <div class="m-4">
+                    <button class="w-full bg-yellow-500 hover:bg-yellow-700 text-black font-bold p-3 rounded">
+                        Proceed to Checkout
+                    </button>
+                </div>
             </form>
         </div>
     </div>
@@ -55,6 +87,12 @@ export default {
     props: {
         errors: Object,
         message: Object
+    },
+    methods: {
+        formatCurrency(price) {
+            price = (price /100);
+            return price.toLocaleString('en-GB', { style: 'currency', currency: 'GBP'})
+        }
     },
     computed: {
         orderTotalQuantity() {
