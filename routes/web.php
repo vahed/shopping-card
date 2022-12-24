@@ -1,14 +1,15 @@
 <?php
 
+use Inertia\Inertia;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CheckoutController;
 use App\Models\Category;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,9 @@ Route::get('/show/{id}', [ProductController::class, 'show'])->name('products.sho
 Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
 Route::get('/productByCategory/{id}', [CategoryController::class, 'productByCategory'])->name('category.productByCategory');
 Route::any('/category/create', [CategoryController::class, 'createCategory'])->name('createCategory');
+
+Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'category' => Category::all(),

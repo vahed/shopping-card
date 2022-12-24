@@ -66,9 +66,11 @@ defineProps({
                     <div class="basis-1/3 md:basis-1/3 px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm font-bold" v-text="orderTotalPrice"></div>
                 </div>
                 <div class="m-4">
-                    <button class="w-full bg-yellow-500 hover:bg-yellow-700 text-black font-bold p-3 rounded">
-                        Proceed to Checkout
-                    </button>
+                    <Link :href="route('checkout.index')">
+                        <button class="w-full bg-yellow-500 hover:bg-yellow-700 text-black font-bold p-3 rounded">
+                            Proceed to Checkout
+                        </button>
+                    </Link>
                 </div>
             </form>
         </div>
@@ -92,6 +94,9 @@ export default {
         formatCurrency(price) {
             price = (price /100);
             return price.toLocaleString('en-GB', { style: 'currency', currency: 'GBP'})
+        },
+        proceedToCheckout() {
+            return this.$inertia.get(this.route('checkout.index'))
         }
     },
     computed: {
