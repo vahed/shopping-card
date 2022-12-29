@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c0d895f5969b959585cc9016204d984",
+    "content-hash": "c5696025d445251a9c559ca7525819d5",
     "packages": [
         {
             "name": "brick/math",
@@ -435,6 +435,72 @@
                 }
             ],
             "time": "2022-09-10T18:51:20+00:00"
+        },
+        {
+            "name": "econea/nusoap",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/f00b4r/nusoap.git",
+                "reference": "c177861ed6232668845a86b4aec40d5b61cab7f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/f00b4r/nusoap/zipball/c177861ed6232668845a86b4aec40d5b61cab7f5",
+                "reference": "c177861ed6232668845a86b4aec40d5b61cab7f5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "php-parallel-lint/php-parallel-lint": "~1.2.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.10.x-dev",
+                    "dev-develop": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Milan Felix Šulc",
+                    "homepage": "https://f3l1x.io"
+                }
+            ],
+            "description": "Fixed NuSOAP for PHP 5.4 - 8.2",
+            "homepage": "https://github.com/pwnlabs/nusoap",
+            "keywords": [
+                "client",
+                "http",
+                "nusoap",
+                "php",
+                "soap",
+                "transport",
+                "xml"
+            ],
+            "support": {
+                "issues": "https://github.com/f00b4r/nusoap/issues",
+                "source": "https://github.com/f00b4r/nusoap/tree/master"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/f3l1x",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-12-11T11:15:03+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -7912,7 +7978,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "econea/nusoap": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

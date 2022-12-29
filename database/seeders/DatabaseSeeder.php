@@ -22,14 +22,17 @@ class DatabaseSeeder extends Seeder
            ProductSeeder::class,
            OrderSeeder::class,
            CategorySeeder::class,
-           BrandSeeder::class
+           BrandSeeder::class,
+
         ]);
 
         $categories = Category::all();
+
         Product::all()->each( function ($product) use ( $categories) {
            $product->categories()->attach(
                $categories->random(2)->pluck('id')->toArray()
            );
         });
+        
     }
 }

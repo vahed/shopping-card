@@ -17,17 +17,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->boolean('in_stock')->default(0);
-            $table->string('details')->nullable();
-            $table->text('description');
-            $table->string('product_code'); //product code
-            $table->string('image')->default('default/no_image.jpg');
-            $table->unsignedBigInteger('price')->default(0);
-            $table->unsignedBigInteger('quantity')->default(0);
-//            $table->string('shopping_cost');
+            $table->string('product_code');
+            //$table->tinyText('image_path');
+            //$table->string('shopping_cost');
             $table->string('category_id');
             $table->string('brand_id');
-//            $table->tinyText('image_path');
             $table->timestamps();
         });
     }

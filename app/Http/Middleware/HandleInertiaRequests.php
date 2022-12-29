@@ -49,7 +49,8 @@ class HandleInertiaRequests extends Middleware
             'categoryItems' => Category::getCategory(),
             'flash' => function () use ($request) {
                 return [
-                    'error' => $request->session()->get('error')
+                    'error' => $request->session()->get('error'),
+                    'success' => $request->session()->get('success')
                 ];
             }
         ]);

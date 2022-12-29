@@ -24,13 +24,7 @@ class ProductFactory extends Factory
         return [
             'name' => $name,
             'slug' => Str::slug($name), //slug should match the name
-            'in_stock' => 1,
-            'details' => fake()->text(),
-            'description' => fake()->text(),
             'product_code' => fake()->randomDigit(),
-            'image' => fake()->imageUrl,
-            'price' => fake()->numberBetween(10000, 100000),
-            'quantity' => fake()->numberBetween(10, 1000),
             'category_id' => fake()->numberBetween(1,20),
             'brand_id' => fake()->numberBetween(1,10)
         ];

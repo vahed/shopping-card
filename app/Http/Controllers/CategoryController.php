@@ -17,8 +17,7 @@ class CategoryController extends Controller
     {
         $category = Category::getCategory();
 
-        return Inertia::render('Welcome', [ 'category' => $category  ]);
-        //return Inertia::render('Products/Category', [ 'category' => $category  ]);
+        return Inertia::render('Welcome', [ 'category' => $category ]);
     }
 
     /**
@@ -28,7 +27,7 @@ class CategoryController extends Controller
      */
     public function productByCategory($id)
     {
-        $productsByCategory = Category::findOrFail($id)->products;
+        $productsByCategory = Category::getProductByCategory($id);
 
         if($productsByCategory){
             return Inertia::render('Products/ProductsByCategory', ['productsByCategory' => $productsByCategory]);
@@ -55,13 +54,18 @@ class CategoryController extends Controller
         {
             $validator = $request->validate([
                 'name'      => 'required',
-                'slug'      => 'required|unique:categories',
+                //'slug'      => 'required|unique:categories',
                 'parent_id' => 'nullable|numeric'
             ]);
 
+            foreach( $category as $cat){
+                if($cat->name == $request->name) {
+                    return redirect()->back()->with('error', 'This category name already exists.');
+                }
+            }
             Category::create([
                 'name' => $request->name,
-                'slug' => $request->slug,
+                //'slug' => $request->slug,
                 'parent_id' =>$request->parent_id
             ]);
 

@@ -30,26 +30,28 @@ Route::put('/cart/{id}/increment',[CartController::class, 'incrementItem'])->nam
 Route::put('/cart/{id}/decrement',[CartController::class, 'decrementItem'])->name('cart.decrementItem');
 Route::delete('/cart/{id}/delete',[CartController::class, 'destroy'])->name('cart.delete');
 
-//Route::get('/purchase', [ProductController::class, 'purchase']);
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/show/{id}', [ProductController::class, 'show'])->name('products.show');
-//Route::get('/productByCategory', [CategoryController::class, 'productByCategory'])->name('category.productByCategory');
 Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
 Route::get('/productByCategory/{id}', [CategoryController::class, 'productByCategory'])->name('category.productByCategory');
-Route::any('/category/create', [CategoryController::class, 'createCategory'])->name('createCategory');
+Route::any('/category/create', [CategoryController::class, 'createCategory'])->name('create.createCategory');
 
 Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::get('order',[CheckoutController::class, 'order'])->name('checkout.order');
+Route::post('shop',[CheckoutController::class, 'add_order'])->name('checkout.shop');
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
-        'category' => Category::all(),
+        //'category' => Category::all(),
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register')
     ]);
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Admin/Dashboard', [
+        'categories' => Category::all()
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';

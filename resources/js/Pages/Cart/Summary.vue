@@ -67,7 +67,7 @@ defineProps({
                 </div>
                 <div class="m-4">
                     <Link :href="route('checkout.index')">
-                        <button class="w-full bg-yellow-500 hover:bg-yellow-700 text-black font-bold p-3 rounded">
+                        <button class="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold p-3 rounded">
                             Proceed to Checkout
                         </button>
                     </Link>

@@ -9,24 +9,28 @@
                 <div class="p-4">
                     <img class="mb-4" src="https://via.placeholder.com/440x200">
                     <div class="font-semibold text-sm font-mont">{{ product.name }}</div>
-                    <div class="mt-3 text-xs text-gray-500 font-mont">{{ product.description }}</div>
+                    <!-- <div class="mt-3 text-xs text-gray-500 font-mont">{{ product.description }}</div> -->
                 </div>
-                <div class="border-t px-4 py-2 fonr-bold text-sm font-mont">{{ formatCurrency(product.price) }}</div>
+                <div class="border-t px-4 py-2 fonr-bold text-sm font-mont">{{ formatCurrency(product.product_features[0]["price"]) }}</div>
             </div>
         </div>
     </div>
-
+    
+    <!-- <Pagination :products="products" /> -->
 </template>
 
 <script>
-import { Head } from '@inertiajs/inertia-vue3';
+import { Head, Link } from '@inertiajs/inertia-vue3';
 import Navbar from "@/Layouts/Navbar.vue";
+import Pagination from "@/Components/Pagination.vue"
 
 export default {
-    name: "Todo.vue",
+    name: "Product.vue",
     components: {
         Navbar,
-        Head
+        Head,
+        Link,
+        Pagination
     },
     props: {
         products: Object,
@@ -39,11 +43,16 @@ export default {
             return price.toLocaleString('en-GB', { style: 'currency', currency: 'GBP'})
         },
         showProduct(product) {
-            // this.$inertia.post(this.route('cart.store'), {
-            //     id: product.id,
-            //     name: product.name
-            // })
-            this.$inertia.get(this.route('products.show',product.id))
+            console.log(product.id)
+            this.$inertia.get(this.route('products.show',product.id),{
+                onBefore: (visit) => {console.log('before')},
+                onStart: (visit) => {console.log('on start')},
+                onProgress: (progress) => {console.log('progress')},
+                onSuccess: (page) => {console.log('page')},
+                onError: (errors) => {console.log('errors')},
+                onCancel: () => {console.log('cancel')},
+                onFinish: visit => {console.log('visit')},
+            })
         }
     }
 }

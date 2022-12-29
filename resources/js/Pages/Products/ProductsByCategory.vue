@@ -4,14 +4,14 @@
         Products
     </h2>
     <div class="grid xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
-        <div v-for="product in productsByCategory" :key="product.id">
+        <div v-for="product in productsByCategory[0].products" :key="product.id">
             <div class="m-4 bg-white rounded shadow overflow-hidden" @click="showProduct(product)">
                 <div class="p-4">
                     <img class="mb-4" src="https://via.placeholder.com/440x200">
                     <div class="font-semibold text-sm font-mont">{{ product.name }}</div>
-                    <div class="mt-3 text-xs text-gray-500 font-mont">{{ product.description }}</div>
+                    <div class="mt-3 text-xs text-gray-500 font-mont">{{ product.product_features[0].description }}</div>
                 </div>
-                <div class="border-t px-4 py-2 fonr-bold text-sm font-mont">{{ formatCurrency(product.price) }}</div>
+                <div class="border-t px-4 py-2 fonr-bold text-sm font-mont">{{ formatCurrency(product.product_features[0].price) }}</div>
             </div>
         </div>
     </div>

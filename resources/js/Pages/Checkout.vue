@@ -115,7 +115,7 @@
         </div>
     </div> -->
     <div class="container mx-auto mt-8">
-        <form class="w-full max-w-lg mx-auto">
+        <!-- <form class="w-full max-w-lg mx-auto">
             <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
@@ -168,6 +168,14 @@
                     v-text="paymentProcessing ? 'Processing' : 'Pay Now'"
                 ></button>
             </div>
+        </form> -->
+        <form class="w-full max-w-lg mx-auto" method="post" @submit.prevent="submit">
+            <input type="text" v-model="form.price">
+            <button
+                    class="flex float-right text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+                    :disabled="paymentProcessing"
+                    v-text="Pay ? 'Processing' : 'Pay Now'"
+                ></button>
         </form>
     </div>
 </template>
@@ -177,20 +185,28 @@ export default {
     name: "Checkout.vue",
     data() {
         return {
-            stripe: {},
-            cardElement: {},
-            customer: {
-                first_name: '',
-                last_name: '',
-                email: '',
-                address: '',
-                city: '',
-                state: '',
-                zip_code: ''
+            // stripe: {},
+            // cardElement: {},
+            // customer: {
+            //     first_name: '',
+            //     last_name: '',
+            //     email: '',
+            //     address: '',
+            //     city: '',
+            //     state: '',
+            //     zip_code: ''
+            // },
+            form: {
+                price: null
             },
             paymentProcessing: false
         }
     },
+    methods: {
+        submit() {
+            this.$inertia.post('shop', this.form)
+        }
+    }
 }
 </script>
 

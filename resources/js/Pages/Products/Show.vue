@@ -15,19 +15,27 @@ import Navbar from "@/Layouts/Navbar.vue";
                     <div class="grid grid-cols-2 gap-4">
                         <div class="title-font font-medium text-2xl text-gray-900 float-right">{{ products.name }}</div>
                         <!-- ... -->
-                        <div class="float-right text-right font-bold">{{ formatCurrency(products.price) }}</div>
+                        <div class="float-right text-right font-bold">{{ formatCurrency(products.product_features[0].price) }}</div>
                     </div>
-                    <p
+                    <div
                         class="mt-4 leading-relaxed"
-                        v-text="products.description"
-                    ></p>
+                        v-text="products.product_features[0].description"
+                    ></div>
+
+                    <!-- display colors -->
+                    <div v-for="colors,key in products.product_features" class="mt-3 flex inline-flex" :key="key">
+                        <span class="p-3 m-1 rounded-full" :style="{'background-color':colors.color}">
+                            <!-- {{ colors.color }} -->
+                        </span>
+                    </div>
+
                     <div class="font-semibold grid grid-cols-1 mt-4 gap-4 border-t-2 text-right">
                         <span
-                            :class="checkQty(products.quantity) === 'Out of stock' ? 'text-red-600'
-                                    : checkQty(products.quantity) === 'Low in stock' ? 'text-red-400'
+                            :class="checkQty(products.product_features[0].quantity) === 'Out of stock' ? 'text-red-600'
+                                    : checkQty(products.product_features[0].quantity) === 'Low in stock' ? 'text-red-400'
                                     : 'text-green-600'"
                             class="mt-4"
-                        >{{ checkQty(products.quantity) }}</span>
+                        >{{ checkQty(products.product_features[0].quantity) }}</span>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div class="flex border-gray-200 mt-4">
@@ -69,15 +77,9 @@ import Navbar from "@/Layouts/Navbar.vue";
 </template>
 
 <script>
-//import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-//import { ChevronDownIcon } from '@vue-hero-icons/outline'
-import '../helperfunc'
 
 export default {
     name: "Show.vue",
-    // components: {
-        //Menu, MenuButton, MenuItem, MenuItems
-    // },
     data() {
         return {
             totQty: null,
@@ -91,7 +93,6 @@ export default {
         }
     },
     props: {
-        products: Object,
         product: Object,
         errors: Object,
         message: Object

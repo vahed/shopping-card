@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\productFeature;
 
 class Product extends Model
 {
@@ -34,4 +35,15 @@ class Product extends Model
     {
         return $this->belongsTo(Brand::class);
     }
+
+    public function productFeatures()
+    {
+        return $this->hasMany(ProductFeature::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
+
 }

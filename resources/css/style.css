@@ -1,3 +1,22 @@
 .font-mont{
     font-family: 'Montserrat', sans-serif;
 }
+.menu {
+    top: 0;
+    left: 0px;
+    height: 100vh;
+    box-sizing: border-box;
+    margin-left: -320px;
+    width: 320px;
+    background-color:#FFF;
+    /* transition: all .3s; */
+    transition: 0.2s ease-in-out;
+    padding: 1rem;
+    z-index: 2 !important;
+    position:absolute;
+    border-color: black;
+  }
+  
+  .menu--open {
+    margin-left: 0;
+  }

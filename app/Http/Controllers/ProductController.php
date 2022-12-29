@@ -32,6 +32,6 @@ class ProductController extends Controller
 
         $product = $this->productRepository->showProductById($id);
 
-        return Inertia::render('Show', [ 'product' => $product ]);
+        return Inertia::render('Products/Show', [ 'product' => $product ]);
     }
 }
