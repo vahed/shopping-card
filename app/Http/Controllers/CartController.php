@@ -47,8 +47,7 @@ class CartController extends Cart
         //     }
         // }
         
-        
-
+        /* need to get total quantity sorted */
         $cartItems = Cart::instance('default')->add(
             $request->id,
             $request->name,
@@ -56,11 +55,12 @@ class CartController extends Cart
             $request->price,
             0,
             [
+                'quantity'=> $request->quantity,
                 'totalQty' => $request->quantity,
-                'product_code' => $request->product_code,
-                'image' => $request->image,
-                'slug' => $request->slug,
-                'details' => $request->details
+                'product_code' => $request->id,
+                //'image' => $request->image,
+                //'slug' => $request->slug,
+                'description' => $request->description
             ]
         )->associate('App\Models\Product');
 

@@ -1,5 +1,6 @@
 <script setup>
-import Navbar from "@/Layouts/Navbar.vue";
+import Navbar from "@/Layouts/Navbar.vue"
+// import Gallery from "@/Pages/Products/Gallery.vue"
 </script>
 
 <template>
@@ -9,7 +10,40 @@ import Navbar from "@/Layouts/Navbar.vue";
     <section class="text-gray-700 body-font overflow-hidden mt-8 mx-3" v-if="product">
         <div class="container mx-auto">
             <div class="flex flex-wrap">
-                <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/640x640">
+                <!-- <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/640x640"> -->
+                <!-- Product gallery -->
+
+                <div class="flex-shrink-0">
+
+                    <div class="max-w-xl flex flex-col">
+                        <div class="flex items-center sm:h-80">
+                            <div :class="{'cursor-not-allowed opacity-50': ! hasPrevious()}"  class="hidden sm:block cursor-pointer">
+                                <svg version="1.0" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="currentColor" class="h-8" @click="previousPhoto()">
+                                    <path d="m42.166 55.31-24.332-25.31 24.332-25.31v50.62z" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.125"/>
+                                </svg>
+                            </div>
+                            <div class="w-full sm:w-108 flex justify-center">
+                                <!-- <img ref="mainImage" class="w-full sm:w-auto sm:h-80" :src="this.photos[0]" loading="lazy" /> -->
+                                <img ref="mainImage" :src="getFirstObject(product[0].product_features).slice(0,1)[0]['images'][0]['image_url']" class="w-full sm:w-auto sm:h-80"/>
+                            </div>
+                            <div :class="{'cursor-not-allowed opacity-50': ! hasNext()}"  class="hidden sm:block cursor-pointer">
+                                <svg version="1.0" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="currentColor" class="h-8" @click="nextPhoto()">
+                                    <path d="m17.834 55.31 24.332-25.31-24.332-25.31v50.62z" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.125"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-center mt-1 space-x-1">
+                            <div v-for="(img, key) in getFeatureUrls(getFirstObject(product[0].product_features).slice(0,1)[0]['images'])" :key="key">
+                                <img :src="img['image_url']" :class="{'ring-2 opacity-50': currentPhoto == key}" class="h-16 w-16" @click="pickPhoto(key)" />
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+
+
 
                 <div v-for="(products, key) in product" class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0" :key="key">
                     <div class="grid grid-cols-2 gap-4">
@@ -23,8 +57,8 @@ import Navbar from "@/Layouts/Navbar.vue";
                     ></div>
 
                     <!-- display colors -->
-                    <div v-for="colors,key in products.product_features" class="mt-3 flex inline-flex" :key="key">
-                        <span class="p-3 m-1 rounded-full" :style="{'background-color':colors.color}">
+                    <div v-for="product_feature,key in products.product_features" class="mt-3 flex inline-flex" :key="key">
+                        <span class="p-3 m-1 rounded-full" :style="{'background-color':product_feature.color}" @click="changeColor(product_feature)">
                             <!-- {{ colors.color }} -->
                         </span>
                     </div>
@@ -66,11 +100,11 @@ import Navbar from "@/Layouts/Navbar.vue";
                     </div>
                 </div>
 
-                <div class="grid grid-cols-4 gap-4 lg:w-1/2 w-full">
+                <!-- <div class="grid grid-cols-4 gap-4 lg:w-1/2 w-full">
                     <div v-for="(img, i) in images" :key="i">
                         <img :src="img" alt="First slide" />
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
@@ -89,30 +123,90 @@ export default {
                 "https://picsum.photos/id/239/1024/800"
             ],
             quantity: 1,
-            quantities: [2,3,4,5,6,7,8,9,10]
+            quantities: [2,3,4,5,6,7,8,9,10],
+            price: 0.0,
+            currentPhoto: -1,
+            photos: []
+
         }
     },
     props: {
         product: Object,
         errors: Object,
-        message: Object
+        message: Object,
     },
     methods: {
+        getFeatureUrls(images) {
+            let arr= []
+            let photo = []
+
+            for (let i = 0; i < images.length; i++) {
+                arr.push({'image_url':images[i]["image_url"]})
+                photo.push(images[i]["image_url"])
+            }
+            this.photos = photo
+            console.log(this.photos)
+            return arr
+        },
+        getFirstObject(obj) {
+
+            return Object.values(obj)
+                .flatMap(value =>
+                    value && typeof value === 'images'
+                        ? valuesDeep(value)
+                        : value
+            )
+
+            console.log(Object.values(obj)
+                .flatMap(value =>
+                    value && typeof value === 'images'
+                        ? valuesDeep(value)
+                        : value
+                )
+            )
+
+        },
+        nextPhoto() {
+            if ( this.hasNext() ) {
+                this.currentPhoto++;
+                this.changePhoto();
+            }
+        },
+        previousPhoto() {
+            if ( this.hasPrevious() ) {
+                this.currentPhoto--;
+                this.changePhoto();
+            }
+        },
+        changePhoto() {
+            this.$refs.mainImage.src = this.photos[this.currentPhoto];
+        },
+        pickPhoto(index) {
+            this.currentPhoto = index;
+            this.changePhoto();
+        },
+        hasPrevious() {
+            return this.currentPhoto > 0;
+        },
+        hasNext() {
+            return this.photos.length > (this.currentPhoto + 1);
+        },
+
+        changeColor(product_feature) {
+            console.log(product_feature.images)
+        },
         formatCurrency(price) {
             price = (price /100);
             return price.toLocaleString('en-GB', { style: 'currency', currency: 'GBP'})
         },
-        addToCard(products) {
-            this.$inertia.post(this.route('cart.store', {
-                id: products.id,
-                name: products.name,
-                price: products.price,
-                product_code: 123455,
-                details: products.description,
-                image: products.image,
-                slug: products.slug,
-                quantity: this.quantity,
-                totalQty: products.quantity
+        addToCard(product) {
+            console.log(product)
+            this.$inertia.post(this.route('cart.store', { 
+                id: product.id, 
+                name: product.name, 
+                price: product.product_features[0].price,
+                description: product.product_features[0].description,  
+                quantity: this.quantity
             }, {
                 preserveScroll: true,
                 preserveState: true,
@@ -128,6 +222,9 @@ export default {
                 return 'In stock'
         }
     },
+    created() {
+        this.changePhoto
+    }
 }
 </script>
 
