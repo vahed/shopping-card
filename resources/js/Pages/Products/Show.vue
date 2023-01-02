@@ -23,8 +23,7 @@ import Navbar from "@/Layouts/Navbar.vue"
                                 </svg>
                             </div>
                             <div class="w-full sm:w-108 flex justify-center">
-                                <!-- <img ref="mainImage" class="w-full sm:w-auto sm:h-80" :src="this.photos[0]" loading="lazy" /> -->
-                                <img ref="mainImage" :src="getFirstObject(product[0].product_features).slice(0,1)[0]['images'][0]['image_url']" class="w-full sm:w-auto sm:h-80"/>
+                                <img ref="mainImage" :src="this.photos[0]" class="w-full sm:w-auto sm:h-80"/>
                             </div>
                             <div :class="{'cursor-not-allowed opacity-50': ! hasNext()}"  class="hidden sm:block cursor-pointer">
                                 <svg version="1.0" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="currentColor" class="h-8" @click="nextPhoto()">
@@ -34,8 +33,8 @@ import Navbar from "@/Layouts/Navbar.vue"
                         </div>
 
                         <div class="flex justify-center mt-1 space-x-1">
-                            <div v-for="(img, key) in getFeatureUrls(getFirstObject(product[0].product_features).slice(0,1)[0]['images'])" :key="key">
-                                <img :src="img['image_url']" :class="{'ring-2 opacity-50': currentPhoto == key}" class="h-16 w-16" @click="pickPhoto(key)" />
+                            <div v-for="(img, key) in this.photos" :key="key">
+                                <img :src="img" :class="{'ring-2 opacity-50': currentPhoto == key}" class="h-16 w-16" @click="pickPhoto(key)" />
                             </div>
                         </div>
                         
@@ -100,11 +99,6 @@ import Navbar from "@/Layouts/Navbar.vue"
                     </div>
                 </div>
 
-                <!-- <div class="grid grid-cols-4 gap-4 lg:w-1/2 w-full">
-                    <div v-for="(img, i) in images" :key="i">
-                        <img :src="img" alt="First slide" />
-                    </div>
-                </div> -->
             </div>
         </div>
     </section>
@@ -126,7 +120,8 @@ export default {
             quantities: [2,3,4,5,6,7,8,9,10],
             price: 0.0,
             currentPhoto: -1,
-            photos: []
+            photos: [],
+            changePhotos: []
 
         }
     },
@@ -136,36 +131,6 @@ export default {
         message: Object,
     },
     methods: {
-        getFeatureUrls(images) {
-            let arr= []
-            let photo = []
-
-            for (let i = 0; i < images.length; i++) {
-                arr.push({'image_url':images[i]["image_url"]})
-                photo.push(images[i]["image_url"])
-            }
-            this.photos = photo
-            console.log(this.photos)
-            return arr
-        },
-        getFirstObject(obj) {
-
-            return Object.values(obj)
-                .flatMap(value =>
-                    value && typeof value === 'images'
-                        ? valuesDeep(value)
-                        : value
-            )
-
-            console.log(Object.values(obj)
-                .flatMap(value =>
-                    value && typeof value === 'images'
-                        ? valuesDeep(value)
-                        : value
-                )
-            )
-
-        },
         nextPhoto() {
             if ( this.hasNext() ) {
                 this.currentPhoto++;
@@ -191,16 +156,20 @@ export default {
         hasNext() {
             return this.photos.length > (this.currentPhoto + 1);
         },
-
         changeColor(product_feature) {
-            console.log(product_feature.images)
+            let arr= []
+
+            Object.keys(product_feature.images).forEach(function(key) {
+                arr.push(product_feature.images[key]['image_url'])
+            });
+
+            this.photos = arr
         },
         formatCurrency(price) {
             price = (price /100);
             return price.toLocaleString('en-GB', { style: 'currency', currency: 'GBP'})
         },
         addToCard(product) {
-            console.log(product)
             this.$inertia.post(this.route('cart.store', { 
                 id: product.id, 
                 name: product.name, 
@@ -224,7 +193,19 @@ export default {
     },
     created() {
         this.changePhoto
-    }
+    },
+    computed: {
+        defaultProductPhotos() {
+            let arr= []
+            let entries = Object.entries(this.product[0].product_features[0]['images'])
+                entries.map( ([key, val] = entry) => {
+                arr.push(val['image_url'])
+            });
+            this.photos = arr
+            return arr
+        },
+    },
+
 }
 </script>
 
