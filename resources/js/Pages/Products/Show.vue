@@ -1,5 +1,6 @@
 <script setup>
 import Navbar from "@/Layouts/Navbar.vue"
+import { isIntegerKey } from "@vue/shared";
 // import Gallery from "@/Pages/Products/Gallery.vue"
 </script>
 
@@ -43,20 +44,19 @@ import Navbar from "@/Layouts/Navbar.vue"
 
 
 
-
-                <div v-for="(products, key) in product" class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0" :key="key">
+                <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0" >
                     <div class="grid grid-cols-2 gap-4">
-                        <div class="title-font font-medium text-2xl text-gray-900 float-right">{{ products.name }}</div>
+                        <div class="title-font font-medium text-2xl text-gray-900 float-right">{{ product[0].name }}</div>
                         <!-- ... -->
-                        <div class="float-right text-right font-bold">{{ formatCurrency(products.product_features[0].price) }}</div>
+                        <div class="float-right text-right font-bold">{{ formatCurrency(price) }}</div>
                     </div>
                     <div
                         class="mt-4 leading-relaxed"
-                        v-text="products.product_features[0].description"
+                        v-text="description"
                     ></div>
 
                     <!-- display colors -->
-                    <div v-for="product_feature,key in products.product_features" class="mt-3 flex inline-flex" :key="key">
+                    <div v-for="product_feature,key in product[0].product_features" class="mt-3 flex inline-flex" :key="key">
                         <span class="p-3 m-1 rounded-full" :style="{'background-color':product_feature.color}" @click="changeColor(product_feature)">
                             <!-- {{ colors.color }} -->
                         </span>
@@ -64,11 +64,11 @@ import Navbar from "@/Layouts/Navbar.vue"
 
                     <div class="font-semibold grid grid-cols-1 mt-4 gap-4 border-t-2 text-right">
                         <span
-                            :class="checkQty(products.product_features[0].quantity) === 'Out of stock' ? 'text-red-600'
-                                    : checkQty(products.product_features[0].quantity) === 'Low in stock' ? 'text-red-400'
+                            :class="checkQty(totalQuantity) === 'Out of stock' ? 'text-red-600'
+                                    : checkQty(totalQuantity) === 'Low in stock' ? 'text-red-400'
                                     : 'text-green-600'"
                             class="mt-4"
-                        >{{ checkQty(products.product_features[0].quantity) }}</span>
+                        >{{ checkQty(totalQuantity) }}</span>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div class="flex border-gray-200 mt-4">
@@ -94,7 +94,7 @@ import Navbar from "@/Layouts/Navbar.vue"
                     <div class="flex mt-6 pt-4 border-t-2 border-gray-200">
                         <button
                             class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                            @click.prevent="addToCard(products)"
+                            @click.prevent="addToCard(quantity)"
                         >Add To Cart</button>
                     </div>
                 </div>
@@ -110,19 +110,25 @@ export default {
     name: "Show.vue",
     data() {
         return {
-            totQty: null,
             images: [
                 "https://picsum.photos/id/237/1024/800",
                 "https://picsum.photos/id/238/1024/800",
                 "https://picsum.photos/id/239/1024/800"
             ],
+            productName: String,
+            color: String,
+            size: String,
+            productId: null,
+            featureId: null,
             quantity: 1,
             quantities: [2,3,4,5,6,7,8,9,10],
-            price: 0.0,
+            totalQuantity: 0,
+            price: null,
+            description: String,
             currentPhoto: -1,
             photos: [],
-            changePhotos: []
-
+            changePhotos: [],
+            productFeature: Object
         }
     },
     props: {
@@ -158,34 +164,47 @@ export default {
         },
         changeColor(product_feature) {
             let arr= []
+            console.log(product_feature.price)
+            this.price = product_feature.price
+            this.size = product_feature.size
+            this.color = product_feature.color
+            this.name = product_feature.price
+            this.description = product_feature.description
+            this.quantity = product_feature.quantity
+            this.featureId = product_feature.id
 
             Object.keys(product_feature.images).forEach(function(key) {
                 arr.push(product_feature.images[key]['image_url'])
             });
 
             this.photos = arr
+            
         },
         formatCurrency(price) {
             price = (price /100);
             return price.toLocaleString('en-GB', { style: 'currency', currency: 'GBP'})
         },
-        addToCard(product) {
+        addToCard(quantity) {
             this.$inertia.post(this.route('cart.store', { 
-                id: product.id, 
-                name: product.name, 
-                price: product.product_features[0].price,
-                description: product.product_features[0].description,  
-                quantity: this.quantity
+                id: this.productId,
+                featureId: this.featureId ,
+                name: this.productName, 
+                color: this.color,
+                size: this.size,
+                price: this.price,
+                description: this.description,  
+                quantity: quantity,
+                totalQuantity: this.totalQuantity
             }, {
                 preserveScroll: true,
                 preserveState: true,
                 resetOnSuccess: false
             }))
         },
-        checkQty(qty) {
-            if(qty < 10 && qty > 0)
+        checkQty(totalQuantity) {
+            if(totalQuantity < 10 && totalQuantity > 0)
                 return 'Low in stock'
-            else if(qty === 0)
+            else if(totalQuantity === 0)
                 return 'Out of stock'
             else
                 return 'In stock'
@@ -193,6 +212,16 @@ export default {
     },
     created() {
         this.changePhoto
+        this.productFeature = this.product[0].product_features[0]
+        this.productId = this.product[0].id
+        this.productName = this.product[0].name
+        this.color = this.product[0].product_features[0].color
+        this.size = this.product[0].product_features[0].size
+        //this.quantity = this.product[0].product_features[0].quantity
+        this.price = this.product[0].product_features[0].price
+        this.description = this.product[0].product_features[0].description
+        this.totalQuantity = this.product[0].product_features[0].quantity
+        this.featureId = this.product[0].product_features[0].id
     },
     computed: {
         defaultProductPhotos() {
@@ -203,7 +232,7 @@ export default {
             });
             this.photos = arr
             return arr
-        },
+        }
     },
 
 }

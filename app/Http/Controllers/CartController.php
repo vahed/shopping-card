@@ -46,18 +46,20 @@ class CartController extends Cart
         //         );
         //     }
         // }
-        
+        //dd($request->description);
         /* need to get total quantity sorted */
         $cartItems = Cart::instance('default')->add(
             $request->id,
             $request->name,
             $request->quantity,
             $request->price,
-            0,
+            $request->featureId,
             [
-                'quantity'=> $request->quantity,
-                'totalQty' => $request->quantity,
                 'product_code' => $request->id,
+                'quantity'=> $request->quantity,
+                'totalQty' => $request->totalQuantity,
+                'color' => $request->color,
+                'size' => $request->size,
                 //'image' => $request->image,
                 //'slug' => $request->slug,
                 'description' => $request->description
@@ -104,13 +106,14 @@ class CartController extends Cart
 
     public function incrementItem(ProductRepository $productRepository, Request $request, $id) {
 
-        $existingQuantity = $productRepository->getQuantity($request);
+        $totalQuantity = $productRepository->getQuantity($request);
 
-        if($request->qty >= $existingQuantity){
-            return back()->with('error', "Maximum available quantity is $existingQuantity");
+        if($request->qty >= $totalQuantity){
+            return back()->with('error', "Maximum available quantity is $totalQuantity");
         }
 
         $request->qty++;
+        
         Cart::instance()->update($id, $request->qty);
 
         return redirect()->route('cart.index');

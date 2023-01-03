@@ -28,13 +28,6 @@ class ProductRepository
 
     public function getQuantity(Request $request)
     {
-        $prod = Product::where('id', $request->id)
-            ->with('productFeatures.images')
-            ->get();
-//dd($prod);
-        // return Product::where('id', '=', $request->id)
-        //     ->with('categories:id,name')
-        //     ->get()[0]["quantity"];
+        return $request->options["totalQty"];
     }
-
 }
