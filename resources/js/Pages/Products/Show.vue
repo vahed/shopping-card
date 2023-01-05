@@ -14,7 +14,7 @@ import { isIntegerKey } from "@vue/shared";
                 <!-- <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/640x640"> -->
                 <!-- Product gallery -->
 
-                <div class="flex-shrink-0">
+                <div class="flex-shrink-0" :defaultProductPhotos="defaultProductPhotos">
 
                     <div class="max-w-xl flex flex-col">
                         <div class="flex items-center sm:h-80">
@@ -24,7 +24,7 @@ import { isIntegerKey } from "@vue/shared";
                                 </svg>
                             </div>
                             <div class="w-full sm:w-108 flex justify-center">
-                                <img ref="mainImage" :src="this.photos[0]" class="w-full sm:w-auto sm:h-80"/>
+                                <img ref="mainImage" :src="this.photos[0]" class="w-full sm:w-auto sm:h-80" loading="lazy"/>
                             </div>
                             <div :class="{'cursor-not-allowed opacity-50': ! hasNext()}"  class="hidden sm:block cursor-pointer">
                                 <svg version="1.0" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="currentColor" class="h-8" @click="nextPhoto()">
@@ -78,7 +78,7 @@ import { isIntegerKey } from "@vue/shared";
                             </div>
                         </div>
                         <div class="float-right text-right mt-4">
-                                <select v-model="quantity" class="float-right appearance-none w-auto bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                                <select :v-model="quantity" @change="switchSelect($event)" class="float-right appearance-none w-auto bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
                                     <option selected="selected">1</option>
                                     <option v-for="(quantity, key) in quantities" :value="quantity" :key="key">
                                         {{ quantity }}
@@ -110,11 +110,6 @@ export default {
     name: "Show.vue",
     data() {
         return {
-            images: [
-                "https://picsum.photos/id/237/1024/800",
-                "https://picsum.photos/id/238/1024/800",
-                "https://picsum.photos/id/239/1024/800"
-            ],
             productName: String,
             color: String,
             size: String,
@@ -137,6 +132,9 @@ export default {
         message: Object,
     },
     methods: {
+        switchSelect(event) {
+            this.quantity = event.target.value;
+        },
         nextPhoto() {
             if ( this.hasNext() ) {
                 this.currentPhoto++;
@@ -164,13 +162,14 @@ export default {
         },
         changeColor(product_feature) {
             let arr= []
-            console.log(product_feature.price)
+            console.log('change color Qty.....'+ product_feature.quantity)
+            console.log('change color Qty.....'+ product_feature.price)
             this.price = product_feature.price
+            this.totalQuantity = product_feature.quantity
             this.size = product_feature.size
             this.color = product_feature.color
             this.name = product_feature.price
             this.description = product_feature.description
-            this.quantity = product_feature.quantity
             this.featureId = product_feature.id
 
             Object.keys(product_feature.images).forEach(function(key) {
@@ -185,6 +184,8 @@ export default {
             return price.toLocaleString('en-GB', { style: 'currency', currency: 'GBP'})
         },
         addToCard(quantity) {
+            console.log('add to cart Qty.....'+ this.quantity)
+            console.log('add to cart Qty.....'+ this.totalQuantity)
             this.$inertia.post(this.route('cart.store', { 
                 id: this.productId,
                 featureId: this.featureId ,
@@ -233,7 +234,7 @@ export default {
             this.photos = arr
             return arr
         }
-    },
+    }
 
 }
 </script>

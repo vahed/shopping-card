@@ -54,9 +54,9 @@ const hasActiveChild = computed(() => {
 
 <script>
 export default {
-    data: () => ({
-        item:{children: Object}
-    }),
+    // data: () => ({
+    //     item:{children: Object}
+    // }),
     methods: {
         productByCategory(category_id) {
             console.log('This is a test');
