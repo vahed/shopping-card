@@ -17,7 +17,17 @@
                                 <!-- Website Logo -->
                                 <a href="#" class="flex items-center py-4 px-2">
                                     <!-- logo image could go here-->
-                                    <span class="font-semibold text-gray-500 text-lg trigger" @click="toggle">{{ categoryText }}</span>
+                                    <div class="font-semibold text-gray-500 text-lg trigger" @click="toggle">
+                                        <span class="flex" v-if="categoryText === 'Show all'">
+                                            <span class="flex-1 m-1">
+                                                <i class="fa fa-bars float-right" aria-hidden="true"></i>
+                                            </span>
+                                            <span class="flex-1">Categories</span>
+                                        </span>
+                                        <span v-else>
+                                            <i class="fa fa-close fa-xl float-right mt-3 text-red-600" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
                                     <div class="menu">
                                         <Category :categoryItems = "$page.props.categoryItems"/>
                                     </div>

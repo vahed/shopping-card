@@ -11,7 +11,7 @@
     background-color:#FFF;
     /* transition: all .3s; */
     transition: 0.2s ease-in-out;
-    padding: 1rem;
+    /*padding: 1rem;*/
     z-index: 2 !important;
     position:absolute;
     border-color: black;
@@ -19,4 +19,6 @@
   
   .menu--open {
     margin-left: 0;
+    border-right-color:bisque;
+    border-right-width: 1px;
   }
