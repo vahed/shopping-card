@@ -11,8 +11,8 @@ class ProductRepository
 {
     public function showProductWithCategory() 
     {
-        return Product::with('productFeatures.images')
-            ->get();
+        return Product::with('productFeatures.images')->paginate(20);
+            //->get();
     }
 
     public function showProductById($id)
