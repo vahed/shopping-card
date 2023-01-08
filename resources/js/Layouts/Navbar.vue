@@ -56,7 +56,12 @@
                         </div>
                         <!-- Secondary Navbar items -->
                         <div class="hidden md:flex items-center space-x-3 ">
-                            <Link v-if="$page.props.auth.user" :href="route('dashboard')" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-yellow-500 hover:text-white transition duration-300">Dashboard</Link>
+                            <div v-if="$page.props.auth.user">
+                                <Link :href="route('dashboard')" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-yellow-500 hover:text-white transition duration-300">Dashboard</Link>
+                                <Link :href="route('logout')" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-yellow-500 hover:text-white transition duration-300" method="post" as="button">
+                                    Log Out
+                                </Link>
+                            </div>
                             <template v-if="!$page.props.auth.user">
                                 <Link :href="route('login')" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-yellow-500 hover:text-white transition duration-300">Log In</Link>
                             

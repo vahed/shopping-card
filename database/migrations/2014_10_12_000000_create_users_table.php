@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('county');
             $table->string('postcode');
+            $table->enum('role', ['user','admin'])->default('user');
             $table->rememberToken();
             $table->timestamps();
         });

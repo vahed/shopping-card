@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue';
 import Checkbox from '@/Components/Checkbox.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
@@ -10,19 +11,25 @@ import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 defineProps({
     canResetPassword: Boolean,
     status: String,
+    loginRequestUrl: String
 });
 
 const form = useForm({
     email: '',
     password: '',
-    remember: false
+    remember: false,
+    loginRequestUrl: ''
 });
 
-const submit = () => {
+const submit = (url) => {
+
+    form.loginRequestUrl = url
+    
     form.post(route('login'), {
         onFinish: () => form.reset('password'),
     });
 };
+
 </script>
 
 <template>
@@ -32,8 +39,9 @@ const submit = () => {
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
             {{ status }}
         </div>
-
-        <form @submit.prevent="submit">
+        
+        <form @submit.prevent="submit(loginRequestUrl)">
+            <p>This is URL: {{ loginRequestUrl }}</p>
             <div>
                 <InputLabel for="email" value="Email" />
                 <TextInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus autocomplete="username" />
@@ -65,3 +73,4 @@ const submit = () => {
         </form>
     </GuestLayout>
 </template>
+

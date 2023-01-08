@@ -19,9 +19,12 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
+        $requestUrl = url()->previous();
+
         return Inertia::render('Auth/Login', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
+            'loginRequestUrl' => $requestUrl
         ]);
     }
 
@@ -33,6 +36,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
+        $request->session()->put('urlBeforeLogin', $request->loginRequestUrl);
+
         $request->authenticate();
 
         $request->session()->regenerate();

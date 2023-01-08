@@ -48,10 +48,19 @@ Route::get('/', function () {
     ]);
 });
 
+//USER DASHBOARD
+Route::get('/userdashboard', function () {
+    return Inertia::render('User/Dashboard', [
+        'canLogin' => Route::has('dashboard')
+    ]);
+})->middleware(['auth', 'user'])->name('dashboard');
+
+//ADMIN DASHBOARD
 Route::get('/dashboard', function () {
     return Inertia::render('Admin/Dashboard', [
         'categories' => Category::all()
     ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'admin'])->name('admin_dashboard');
+
 
 require __DIR__.'/auth.php';
