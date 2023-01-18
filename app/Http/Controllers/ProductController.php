@@ -34,4 +34,9 @@ class ProductController extends Controller
 
         return Inertia::render('Products/Show', [ 'product' => $product ]);
     }
+
+    public function create()
+    {
+        dd('create product');
+    }
 }

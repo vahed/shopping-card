@@ -1,8 +1,9 @@
 <template>
         <nav role="navigation">
+            
             <div class="text-xl bg-yellow-600 text-white">
                 <div class="p-3">
-                    Catgegory menu<i class="fa fa-list-alt float-right" aria-hidden="true"></i>
+                    <i class="fa fa-list-alt float-left mt-1 mr-1" aria-hidden="true"></i>Catgegory menu
                 </div>
             </div>
             <!-- pass item as prop to CatItem -->

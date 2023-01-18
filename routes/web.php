@@ -48,19 +48,22 @@ Route::get('/', function () {
     ]);
 });
 
-//USER DASHBOARD
-Route::get('/userdashboard', function () {
-    return Inertia::render('User/Dashboard', [
-        'canLogin' => Route::has('dashboard')
-    ]);
-})->middleware(['auth', 'user'])->name('dashboard');
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('dashboard', function () {
+        return Inertia::render('Admin/Dashboard', [
+            'isLogged' => Auth::check(),
+            'categories' => Category::all()
+        ]);
+    })->name('admin_dashboard');
 
-//ADMIN DASHBOARD
-Route::get('/dashboard', function () {
-    return Inertia::render('Admin/Dashboard', [
-        'categories' => Category::all()
-    ]);
-})->middleware(['auth', 'admin'])->name('admin_dashboard');
+    Route::get('showCreateProduct', function () {
+        return Inertia::render('Admin/CreateProduct', [
+            'isLogged' => Auth::check(),
+            'canLogin' => Route::has('dashboard')
+        ]);
+    })->name('show_create_product');
 
+    Route::post('createProduct',[ProductController::class, 'create'])->name('product.create');
+});
 
 require __DIR__.'/auth.php';

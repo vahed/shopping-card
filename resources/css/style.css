@@ -9,12 +9,30 @@
     margin-left: -320px;
     width: 320px;
     background-color:#FFF;
-    /* transition: all .3s; */
     transition: 0.2s ease-in-out;
-    /*padding: 1rem;*/
     z-index: 2 !important;
     position:absolute;
-    border-color: black;
+    border-color: black; 
+  }
+
+  #overlay {
+    position: fixed;
+    display: none;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .closeButton {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    font-size: 36px;
+    margin-right: 8px;
+    color: white;
   }
   
   .menu--open {

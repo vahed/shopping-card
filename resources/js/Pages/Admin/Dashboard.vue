@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/inertia-vue3';
+import { Head, Link } from '@inertiajs/inertia-vue3';
 
 defineProps({
     'categories': Object
@@ -12,26 +12,11 @@ defineProps({
 
     <AuthenticatedLayout>
         <template #header>
-            <div class="trigger" @click="toggle">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-times"></i>
-            </div>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Dashboard
-            </h2>
         </template>
         
-        <div class="menu">
-            <ul v-for="(links, key) in adminLinks" :key="key" class="space-y-1 max-w-md list-none list-inside text-gray-500 dark:text-gray-400">
-                <li>
-                    <i class="m-3" :class="links.logo"></i>
-                    <span class="hover:text-gray-900">{{ links.name }}</span>
-                </li>
-            </ul>
-        </div>
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
                         <!-- categories form -->
@@ -296,11 +281,6 @@ defineProps({
 export default {
     data() {
         return {
-            adminLinks: [
-                {'key' : 1, 'name' : 'Create category', 'logo': 'far fa-plus-square'},
-                {'key' : 2, 'name' : 'Create products', 'logo': 'fas fa-tshirt'},
-                {'key' : 3, 'name' : 'Edit products', 'logo': 'fas fa-user-edit'}
-            ],
             isButton: true,
             form: {
                 name: null,

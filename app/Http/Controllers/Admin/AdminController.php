@@ -13,4 +13,5 @@ class AdminController extends Controller
         
     //     return Inertia::render('Admin/Dashboard', [ 'category' => $categories ]);
     // }
+    
 }

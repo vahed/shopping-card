@@ -41,7 +41,6 @@ const submit = (url) => {
         </div>
         
         <form @submit.prevent="submit(loginRequestUrl)">
-            <p>This is URL: {{ loginRequestUrl }}</p>
             <div>
                 <InputLabel for="email" value="Email" />
                 <TextInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus autocomplete="username" />

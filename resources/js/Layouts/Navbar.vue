@@ -10,29 +10,11 @@
         <body>
             <!-- Navbar goes here -->
             <nav class="bg-white shadow-lg">
-                <div class="max-w-6xl mx-auto px-4">
+                <div class="mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between">
-                        <div class="flex space-x-7">
-                            <div>
-                                <!-- Website Logo -->
-                                <a href="#" class="flex items-center py-4 px-2">
-                                    <!-- logo image could go here-->
-                                    <div class="font-semibold text-gray-500 text-lg trigger" @click="toggle">
-                                        <span class="flex" v-if="categoryText === 'Show all'">
-                                            <span class="flex-1 m-1">
-                                                <i class="fa fa-bars float-right" aria-hidden="true"></i>
-                                            </span>
-                                            <span class="flex-1">Categories</span>
-                                        </span>
-                                        <span v-else>
-                                            <i class="fa fa-close fa-xl float-right mt-3 text-red-600" aria-hidden="true"></i>
-                                        </span>
-                                    </div>
-                                    <div class="menu">
-                                        <Category :categoryItems = "$page.props.categoryItems"/>
-                                    </div>
-                                </a>
-                            </div>
+                            <!-- sidebar categories-->
+                            <Categories />
+
                             <!-- Primary Navbar items -->
                             <div class="hidden md:flex items-center space-x-1">
                                 <Link :href="route('home.index')" :class=" $page.url === '/home' ? 'text-yellow-500 border-b-4 border-yellow-500' : 'text-gray-500 font-semibold hover:text-yellow-500'" class="py-4 px-2  font-semibold ">Home</Link>
@@ -53,11 +35,11 @@
                                     
                                 </a>
                             </div>
-                        </div>
+                        
                         <!-- Secondary Navbar items -->
-                        <div class="hidden md:flex items-center space-x-3 ">
+                        <div class="hidden md:flex items-center space-x-3">
                             <div v-if="$page.props.auth.user">
-                                <Link :href="route('dashboard')" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-yellow-500 hover:text-white transition duration-300">Dashboard</Link>
+                                <Link :href="route('admin_dashboard')" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-yellow-500 hover:text-white transition duration-300">Dashboard</Link>
                                 <Link :href="route('logout')" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-yellow-500 hover:text-white transition duration-300" method="post" as="button">
                                     Log Out
                                 </Link>
@@ -65,7 +47,7 @@
                             <template v-if="!$page.props.auth.user">
                                 <Link :href="route('login')" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-yellow-500 hover:text-white transition duration-300">Log In</Link>
                             
-                                <Link :href="route('register')" class="py-2 px-2 font-medium text-white bg-yellow-500 rounded hover:bg-yellow-400 transition duration-300">Sign Up</Link>
+                                <Link :href="route('register')" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-yellow-400 hover:text-white transition duration-300">Sign Up</Link>
                             </template>
                         </div>
                         <!-- Mobile menu button -->
@@ -115,50 +97,15 @@
 
 <script>
 import {Head, Link } from "@inertiajs/inertia-vue3"
-import Category from "@/Pages/Products/Category.vue"
+import Categories from "@/Components/Categories.vue"
 
 export default {
     name: "Navbar.vue",
-    data() {
-        return {
-            expanded: false,
-            categoryText: "Show all",
-            isActive: true
-        }
-    },
     components: {
         //BreezeAuthenticatedLayout,
         Head,
         Link,
-        Category
-    },
-    props: {
-        category: Object
-    },
-    methods: {
-        
-        toggleMenu() {
-            const menu = document.querySelector(".mobile-menu")
-            menu.classList.toggle("hidden")
-        },
-        toggle() {
-            this.expanded = !this.expanded;
-
-            if (this.expanded) {
-                this.categoryText = "Hide all";
-            } else {
-                this.categoryText = "Show all";
-            }
-
-            const menu = document.querySelector('.menu');
-            const trigger = document.querySelector('.trigger');
-            menu.classList.toggle('menu--open');
-
-            //trigger.addEventListener('text-yellow-500 border-b-4 border-yellow-500', toggle);
-        },
-        makeLinkActive() {
-
-        }
+        Categories
     }
 }
 </script>
