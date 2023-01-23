@@ -21,7 +21,11 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Auth/Register');
+        $requestUrl = url()->previous();
+
+        return Inertia::render('Auth/Register', [
+            'registerRequestUrl' => $requestUrl
+        ]);
     }
 
     /**
@@ -34,6 +38,10 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
+        $request->session()->put('urlBeforeRegister', $request->registerRequestUrl);
+
+        $urlBeforeRegister = $request->session()->get('urlBeforeRegister');
+
         $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
@@ -57,6 +65,10 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        if($user){
+            return Inertia::location($urlBeforeRegister);
+        }
 
         return redirect(RouteServiceProvider::HOME);
     }

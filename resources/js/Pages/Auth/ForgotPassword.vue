@@ -5,6 +5,8 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, useForm } from '@inertiajs/inertia-vue3';
+import Navbar from "@/Shared/Navbar.vue";
+import Search from "@/Layouts/Search.vue";
 
 defineProps({
     status: String,
@@ -20,6 +22,10 @@ const submit = () => {
 </script>
 
 <template>
+    <div class="grid grid-cols-1 divide-y">
+        <Navbar />
+        <Search />
+    </div>
     <GuestLayout>
         <Head title="Forgot Password" />
 

@@ -38,9 +38,15 @@ class AuthenticatedSessionController extends Controller
     {
         $request->session()->put('urlBeforeLogin', $request->loginRequestUrl);
 
+        $urlBeforeLogin = $request->session()->get('urlBeforeLogin');
+
         $request->authenticate();
 
         $request->session()->regenerate();
+
+        if(Auth::user()?->role === 'user'){
+            return Inertia::location($urlBeforeLogin);
+        }
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }

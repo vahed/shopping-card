@@ -67,7 +67,7 @@ defineProps({
                 </div>
                 <div class="m-4">
                     <Link :href="route('checkout.index')">
-                        <button class="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold p-3 rounded">
+                        <button class="w-full bg-yellow-500 hover:bg-yellow-500 font-bold p-3 rounded text-white focus:outline-none hover:bg-yellow-600 rounded">
                             Proceed to Checkout
                         </button>
                     </Link>
@@ -81,7 +81,7 @@ defineProps({
 import { Link } from '@inertiajs/inertia-vue3'
 
 export default {
-    
+
     name: "Summary.vue",
     components: {
         Link
@@ -102,7 +102,7 @@ export default {
     computed: {
         orderTotalQuantity() {
 
-            let itemsToArray = this.convertCartItemToArray 
+            let itemsToArray = this.convertCartItemToArray
             let quantity = 0
 
             for(let i in itemsToArray){
@@ -115,7 +115,7 @@ export default {
         convertCartItemToArray() {
 
             let convertItemsToArray = [];
-            
+
             for(let items in this.cartItems){
                 convertItemsToArray.push(this.cartItems[items])
             }
@@ -124,7 +124,7 @@ export default {
         },
         orderTotalPrice() {
 
-            let itemsToArray = this.convertCartItemToArray 
+            let itemsToArray = this.convertCartItemToArray
             let amount = 0
             let quantity = 0
             let totalAmount = 0
@@ -133,9 +133,9 @@ export default {
                 amount = Number(itemsToArray[i]['price'])
                 quantity = Number(itemsToArray[i]['qty'])
                 //console.log(quantity)
-                totalAmount += amount * quantity;    
+                totalAmount += amount * quantity;
             }
-            
+
             totalAmount = (totalAmount / 100);
 
             return totalAmount.toLocaleString('en-GB', { style: 'currency', currency: 'GBP' });
@@ -151,4 +151,3 @@ export default {
 <style scoped>
 
 </style>
- 

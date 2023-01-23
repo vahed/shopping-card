@@ -13,7 +13,7 @@ class ProductController extends Controller
 {
     private $productRepository;
 
-    public function __construct(ProductRepository $productRepository) 
+    public function __construct(ProductRepository $productRepository)
     {
         $this->productRepository = $productRepository;
     }
@@ -35,8 +35,11 @@ class ProductController extends Controller
         return Inertia::render('Products/Show', [ 'product' => $product ]);
     }
 
-    public function create()
+    public function searchProducts(Request $request)
     {
-        dd('create product');
+        $name = $request->get('searchInput');
+        $products = $this->productRepository->showProductByName($name);
+
+        return Inertia::render('Products/Product', [ 'products' => $products ]);
     }
 }

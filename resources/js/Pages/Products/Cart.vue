@@ -54,8 +54,8 @@ defineProps({
             </div>
         </div>
         <div class="xl:col-span-5 lg:col-span-5 md:col-span-5 col-span-12">
-            <Summary 
-                @increment-by-one="incrementCount($event)" 
+            <Summary
+                @increment-by-one="incrementCount($event)"
                 @decrement-by-one="decrementCount($event)"
                 @delete-item="deleteSingleItem($event)"
                 :cartItems="cartItems"
@@ -69,7 +69,7 @@ defineProps({
 <script>
 import { Link } from '@inertiajs/inertia-vue3'
 import { Inertia } from '@inertiajs/inertia'
-import Navbar from "@/Layouts/Navbar.vue"
+import Navbar from "@/Shared/Navbar.vue"
 import Summary from "@/Pages/Cart/Summary.vue"
 
 export default {
@@ -113,7 +113,7 @@ export default {
         },
 
     },
-    
+
 }
 </script>
 

@@ -20,7 +20,7 @@
 
 <script>
 import { Head } from '@inertiajs/inertia-vue3';
-import Navbar from "@/Layouts/Navbar.vue";
+import Navbar from "@/Shared/Navbar.vue";
 
 export default {
     name: "ProductByCategory.vue",

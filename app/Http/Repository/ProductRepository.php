@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class ProductRepository
 {
-    public function showProductWithCategory() 
+    public function showProductWithCategory()
     {
         return Product::with('productFeatures.images')->paginate(20);
             //->get();
@@ -20,10 +20,17 @@ class ProductRepository
         return Product::where('id', $id)
             ->with('productFeatures.images')
             ->get();
-        
+
         // return Product::where('id', '=', $id)
         //     ->with('categories:id,name')
         //     ->get();
+    }
+
+    public function showProductByName($name)
+    {
+        return Product::where('name', 'like',  '%'.$name.'%')
+            ->with('productFeatures.images')
+            ->paginate(20);
     }
 
     public function getQuantity(Request $request)

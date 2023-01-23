@@ -1,7 +1,8 @@
 <script setup>
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import Footer from '@/Layouts/Footer.vue';
-import Navbar from "@/Layouts/Navbar.vue";
+import Navbar from "@/Shared/Navbar.vue";
+import Search from "@/Layouts/Search.vue";
 
 defineProps({
     canLogin: Boolean,
@@ -11,14 +12,16 @@ defineProps({
 </script>
 
 <template>
-    
+
     <Head title="Welcome" />
 
-    <Navbar />
+    <div class="grid grid-cols-1 divide-y">
+        <Navbar />
+        <Search />
+    </div>
 
     <Carousel />
 
-    
     <!-- main -->
 <!--    <section class="container mx-auto px-6 p-10">-->
 <!--        <Product :products="products" />-->

@@ -13,7 +13,7 @@
                 <div class="closeButton" @click="toggle()">&times;</div>
                 <Category :categoryItems = "$page.props.categoryItems"/>
             </div>
-        </a>    
+        </a>
     </div>
 </template>
 
@@ -32,13 +32,12 @@ export default {
         category: Object
     },
     methods: {
-        
+
         toggleMenu() {
 
             const menu = document.querySelector(".mobile-menu")
-            console.log('togglemenu...')
             menu.classList.toggle("hidden")
-            
+
         },
         toggle() {
             const overlay = document.getElementById('overlay')

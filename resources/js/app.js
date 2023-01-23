@@ -13,7 +13,7 @@ const appName = window.document.getElementsByTagName('title')[0]?.innerText || '
 
 const store = createStore({
     modules: {
-  
+
     }
   });
 
@@ -29,4 +29,7 @@ createInertiaApp({
     },
 });
 
-InertiaProgress.init({ color: '#4B5563' });
+InertiaProgress.init({
+    color: 'yellow',
+    showSpinner: true
+});

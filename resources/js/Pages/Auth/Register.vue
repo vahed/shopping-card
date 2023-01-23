@@ -5,6 +5,12 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
+import Navbar from "@/Shared/Navbar.vue";
+import Search from "@/Layouts/Search.vue";
+
+defineProps({
+    registerRequestUrl: String
+});
 
 const form = useForm({
     name: '',
@@ -16,9 +22,11 @@ const form = useForm({
     password: '',
     password_confirmation: '',
     terms: false,
+    registerRequestUrl: ''
 });
 
-const submit = () => {
+const submit = (url) => {
+    form.registerRequestUrl = url
     form.post(route('register'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
@@ -26,10 +34,14 @@ const submit = () => {
 </script>
 
 <template>
+    <div class="grid grid-cols-1 divide-y">
+        <Navbar />
+        <Search />
+    </div>
     <GuestLayout>
         <Head title="Register" />
 
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit(registerRequestUrl)">
             <div>
                 <InputLabel for="name" value="Name" />
                 <TextInput id="name" type="text" class="mt-1 block w-full" v-model="form.name" required autofocus autocomplete="name" />

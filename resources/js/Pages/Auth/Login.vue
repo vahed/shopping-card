@@ -7,6 +7,8 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
+import Navbar from "@/Shared/Navbar.vue";
+import Search from "@/Layouts/Search.vue";
 
 defineProps({
     canResetPassword: Boolean,
@@ -24,7 +26,7 @@ const form = useForm({
 const submit = (url) => {
 
     form.loginRequestUrl = url
-    
+
     form.post(route('login'), {
         onFinish: () => form.reset('password'),
     });
@@ -33,13 +35,18 @@ const submit = (url) => {
 </script>
 
 <template>
+    <Head title="Log in" />
+    <div class="grid grid-cols-1 divide-y">
+        <Navbar />
+        <Search />
+    </div>
     <GuestLayout>
-        <Head title="Log in" />
+
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
             {{ status }}
         </div>
-        
+
         <form @submit.prevent="submit(loginRequestUrl)">
             <div>
                 <InputLabel for="email" value="Email" />
