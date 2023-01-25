@@ -11,12 +11,16 @@
 
     <div class="grid xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
         <div v-for="product in products.data" :key="product.id">
-            <div class="m-4 bg-white rounded shadow overflow-hidden " @click="showProduct(product)">
+            <div class="bg-white overflow-hidden" @click="showProduct(product)">
                 <div class="p-4">
                     <img class="w-full mb-4" :src="product.product_features[0].images[0].image_url">
-                    <div class="font-semibold text-sm font-mont">{{ product.name }}</div>
+                    <div class="flex justify-between">
+                        <div class="text-sm font-mont">{{ product.name }}</div>
+                        <div class="text-sm font-mont">{{ formatCurrency(product.product_features[0]["price"]) }}</div>
+                    </div>
+
                 </div>
-                <div class="border-t px-4 py-2 fonr-bold text-sm font-mont">{{ formatCurrency(product.product_features[0]["price"]) }}</div>
+
             </div>
         </div>
     </div>

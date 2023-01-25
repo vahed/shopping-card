@@ -57,7 +57,6 @@ class Category extends Model
     public static function getProductByCategory($id)
     {
         return Category::where('id', $id)
-            ->with('products.productFeatures.images')
-            ->get();
+            ->with('products.productFeatures.images')->paginate(20);
     }
 }

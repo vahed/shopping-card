@@ -41,7 +41,7 @@ const hasActiveChild = computed(() => {
                 open ? '-rotate-180 text-gray-600' : 'text-gray-400']"
             />
         </DisclosureButton>
-    
+
         <DisclosurePanel class="ml-4">
             <!-- pass item recursively to display subcategory-->
             <CatItem
@@ -55,9 +55,6 @@ const hasActiveChild = computed(() => {
 
 <script>
 export default {
-    // data: () => ({
-    //     item:{children: Object}
-    // }),
     methods: {
         productByCategory(category_id) {
             this.$inertia.get(this.route('category.productByCategory', category_id));
