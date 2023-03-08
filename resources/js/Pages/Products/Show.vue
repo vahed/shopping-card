@@ -17,8 +17,8 @@ import { Head } from '@inertiajs/inertia-vue3'
     <section class="container mx-auto mt-10" v-if="product">
         <div class="grid xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-3 xm:grid-col-12 gap-4">
 
-            <div class="flex flex-wrap">
-                <div class="flex-shrink-0" :defaultProductPhotos="defaultProductPhotos">
+            <div class="xl:flex lg:flex md:flex">
+                <div class="flex-shrink-0">
                     <div class="max-w-xl flex flex-col">
                         <div class="flex items-center sm:h-80">
                             <div :class="{'cursor-not-allowed opacity-50': ! hasPrevious()}"  class="hidden sm:block cursor-pointer">
@@ -27,7 +27,7 @@ import { Head } from '@inertiajs/inertia-vue3'
                                 </svg>
                             </div>
                             <div class="w-full sm:w-108 flex justify-center">
-                                <img ref="mainImage" :src="this.photos[0]" class="w-full xs:w-auto sm:w-auto sm:h-80" loading="lazy"/>
+                                <img ref="mainImage" :src="photos[0]" class="w-full xs:w-auto sm:w-auto sm:h-80 m-l-10 m-r-10" loading="lazy"/>
                             </div>
 
                             <div :class="{'cursor-not-allowed opacity-50': ! hasNext()}"  class="hidden sm:block cursor-pointer">
@@ -38,7 +38,7 @@ import { Head } from '@inertiajs/inertia-vue3'
                         </div>
 
                         <div class="flex justify-center mt-1 space-x-1">
-                            <div v-for="(img, key) in this.photos" :key="key">
+                            <div v-for="(img, key) in photos" :key="key">
                                 <img :src="img" :class="{'ring-2 opacity-50': currentPhoto == key}" class="h-16 w-16" @click="pickPhoto(key)" />
                             </div>
                         </div>
@@ -61,7 +61,7 @@ import { Head } from '@inertiajs/inertia-vue3'
                     ></div>
 
                     <!-- display colors -->
-                    <div v-for="product_feature,key in product[0].product_features" class="mt-3 flex inline-flex" :key="key">
+                    <div v-for="(product_feature,key) in product[0].product_features" class="mt-3 flex inline-flex" :key="key">
                         <span class="p-3 m-1 rounded-full" :style="{'background-color':product_feature.color}" @click="changeColor(product_feature)">
                             <!-- {{ colors.color }} -->
                         </span>
@@ -169,8 +169,6 @@ export default {
         },
         changeColor(product_feature) {
             let arr= []
-            console.log('change color Qty.....'+ product_feature.quantity)
-            console.log('change color Qty.....'+ product_feature.price)
             this.price = product_feature.price
             this.totalQuantity = product_feature.quantity
             this.size = product_feature.size
@@ -191,8 +189,6 @@ export default {
             return price.toLocaleString('en-GB', { style: 'currency', currency: 'GBP'})
         },
         addToCard(quantity) {
-            console.log('add to cart Qty.....'+ this.quantity)
-            console.log('add to cart Qty.....'+ this.totalQuantity)
             this.$inertia.post(this.route('cart.store', {
                 id: this.productId,
                 featureId: this.featureId ,
@@ -219,13 +215,12 @@ export default {
         }
     },
     created() {
-        this.changePhoto
+        this.photos = this.defaultProductPhotos
         this.productFeature = this.product[0].product_features[0]
         this.productId = this.product[0].id
         this.productName = this.product[0].name
         this.color = this.product[0].product_features[0].color
         this.size = this.product[0].product_features[0].size
-        //this.quantity = this.product[0].product_features[0].quantity
         this.price = this.product[0].product_features[0].price
         this.description = this.product[0].product_features[0].description
         this.totalQuantity = this.product[0].product_features[0].quantity

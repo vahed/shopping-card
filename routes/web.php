@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminProductController;
 use Inertia\Inertia;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
@@ -58,14 +59,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
         ]);
     })->name('admin_dashboard');
 
-    Route::get('showCreateProduct', function () {
-        return Inertia::render('Admin/CreateProduct', [
-            'isLogged' => Auth::check(),
-            'canLogin' => Route::has('dashboard')
-        ]);
-    })->name('show_create_product');
+    Route::resource('adminproduct', ProductController::class)->only('index','show','store');
 
     Route::post('createProduct',[ProductController::class, 'create'])->name('product.create');
+
+    Route::resource('showCreateProduct', AdminProductController::class);
 });
 
 require __DIR__.'/auth.php';

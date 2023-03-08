@@ -23,7 +23,6 @@ class BrandFactory extends Factory
         $size = ['extra small', 'small', 'medium', 'large', 'extra large'];
 
         return [
-            'product_id' => $this->faker->numberBetween(1, 10),
             'color' => Arr::random($randomColor),
             'brand_name' => Arr::random($brandName),
             'size' => Arr::random($size)

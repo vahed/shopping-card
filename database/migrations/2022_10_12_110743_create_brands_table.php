@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('brands', function (Blueprint $table) {
             $table->id();
-            $table->integer('product_id');
             $table->string('color');
             $table->string('brand_name');
             $table->string('size');

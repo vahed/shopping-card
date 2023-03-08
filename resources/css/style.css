@@ -3,7 +3,7 @@
 }
 .menu {
     top: 0;
-    left: 0px;
+    left: 0;
     height: 100vh;
     box-sizing: border-box;
     margin-left: -320px;
@@ -12,7 +12,7 @@
     transition: 0.2s ease-in-out;
     z-index: 2 !important;
     position:absolute;
-    border-color: black; 
+    border-color: black;
   }
 
   #overlay {
@@ -34,9 +34,18 @@
     margin-right: 8px;
     color: white;
   }
-  
+
   .menu--open {
     margin-left: 0;
     border-right-color:bisque;
     border-right-width: 1px;
   }
+
+    @media only screen and (max-width: 600px) {
+        .m-l-10 {
+            margin-left: 15px;
+        }
+        .m-r-10 {
+            margin-right: 15px;
+        }
+    }

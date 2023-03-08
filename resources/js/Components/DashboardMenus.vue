@@ -36,7 +36,7 @@
                     </div>
                 </div>
             </a>
-        
+
     </div>
 </template>
 
@@ -50,7 +50,7 @@ export default {
         return {
             adminLinks: [
                 {'key' : 1, 'name' : 'Create category', 'logo': 'far fa-plus-square'},
-                {'key' : 2, 'name' : 'Create products', 'logo': 'fas fa-tshirt', 'route': 'show_create_product'},
+                {'key' : 2, 'name' : 'Create products', 'logo': 'fas fa-tshirt', 'route': 'showCreateProduct.index'},
                 {'key' : 3, 'name' : 'Edit products', 'logo': 'fas fa-user-edit'}
             ],
             userLinks: [
@@ -69,13 +69,13 @@ export default {
         category: Object
     },
     methods: {
-        
+
         toggleMenu() {
 
             const menu = document.querySelector(".mobile-menu")
             console.log('togglemenu...')
             menu.classList.toggle("hidden")
-            
+
         },
         toggle() {
             const overlay = document.getElementById('overlay')

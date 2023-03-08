@@ -12,11 +12,12 @@
             <div class="carousel-inner relative overflow-hidden w-full">
                 <div v-for="(img, i) in images" :id="`slide-${i}`" :key="i" :class="`${active === i ? 'active' : 'left-full'}`" class="carousel-item inset-0 relative w-full transform transition-all duration-500 ease-in-out">
                     <div class="relative w-full">
-                        <img class="carousel-height block w-full" :src="img" alt="First slide" />
+                        <img class="carousel-height block w-full" :src="img.image" alt="First slide" />
                         <div class="absolute bottom-0 left-0 right-0 px-4 py-2 bg-gray-800 opacity-70">
-                            <h3 class="text-xl text-white font-bold">
-                                Hey, This is a test to display some cool header</h3>
-                            <p class="mt-2 text-sm text-gray-300">Some description text. Some dummy text here. Welcome to KindaCode.com</p>
+                            <h3 class="text-xl text-white font-bold text-center">
+                                {{ img.header }}
+                            </h3>
+                            <p class="mt-2 text-sm text-gray-300 text-center">{{ img.text }}</p>
                         </div>
                     </div>
                 </div>
@@ -30,22 +31,26 @@ export default {
     name: "Crousel.vue",
     data: () => ({
         images: [
-            "https://picsum.photos/id/237/1024/800",
-            "https://picsum.photos/id/238/1024/800",
-            "https://picsum.photos/id/239/1024/800"
+            {
+                image: "https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg",
+                header: "Welcome to your online store",
+                text: "Our clothing is the one the finest collection of european styles"
+            },
+            {
+                image: "https://images.pexels.com/photos/291762/pexels-photo-291762.jpeg",
+                header: "Trendy styles",
+                text: "We present our quality products"
+            },
+            {
+                image: "https://images.pexels.com/photos/1040424/pexels-photo-1040424.jpeg",
+                header: "Search our top brand collections",
+                text: "Browse our chique and trendy looking fashions"
+            }
+            // "https://images.pexels.com/photos/291762/pexels-photo-291762.jpeg",
+            // "https://images.pexels.com/photos/1040424/pexels-photo-1040424.jpeg"
         ],
         active: 0
     }),
-    methods:{
-        // prev() {
-        //     console.log('pre')
-        //     this.active = this.images.length - 1
-        // },
-        // next() {
-        //     console.log('next')
-        //     this.active = this.images.length + 1
-        // }
-    },
     mounted() {
         let i = 0;
         setInterval(() => {
