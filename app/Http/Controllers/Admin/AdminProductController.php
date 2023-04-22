@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Category;
 use App\Models\Product;
+use App\Models\Brand;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -20,6 +22,7 @@ class AdminProductController extends Controller
     public function index()
     {
         return Inertia::render('Admin/CreateProduct', [
+            'brands' => Brand::all(),
             'isLogged' => Auth::check(),
             'canLogin' => Route::has('dashboard')
         ]);

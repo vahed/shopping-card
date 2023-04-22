@@ -17,7 +17,11 @@ class Category extends Model
 //    {
 //        return $this->belongsToMany(Product::class);
 //    }
-
+    public static function leavesCategory() {
+//        return Category::getCategoryTree()->leftJoin('categories as child_category', 'child_category.parent_id', 'categories.id')
+//            ->whereNull('child_category.id')->get();
+        return Category::getCategory();//->toArray();
+    }
     public function products()
     {
         return $this->hasMany(Product::class);

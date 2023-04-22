@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link } from '@inertiajs/inertia-vue3';
+import { Head } from '@inertiajs/inertia-vue3';
 
 defineProps({
     'categories': Object
@@ -13,7 +13,7 @@ defineProps({
     <AuthenticatedLayout>
         <template #header>
         </template>
-        
+
 
         <div class="py-12">
             <div class="mx-auto sm:px-6 lg:px-8">
@@ -61,8 +61,8 @@ defineProps({
                                                     {{ category.id }}
                                                 </th>
                                                 <td class="py-4 px-6">
-                                                    <input 
-                                                        type="text" 
+                                                    <input
+                                                        type="text"
                                                         class="text-base
                                                                font-normal
                                                                text-gray-700
@@ -72,13 +72,13 @@ defineProps({
                                                                transition
                                                                ease-in-out
                                                                m-0
-                                                               focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" 
+                                                               focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                                         v-model="category.name"
                                                     />
                                                 </td>
                                                 <td class="py-4 px-6">
-                                                    <input 
-                                                        type="text" 
+                                                    <input
+                                                        type="text"
                                                         class="text-base
                                                                font-normal
                                                                text-gray-700
@@ -88,14 +88,14 @@ defineProps({
                                                                transition
                                                                ease-in-out
                                                                m-0
-                                                               focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" 
+                                                               focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                                         v-model="category.slug"
                                                         disabled
                                                     />
                                                 </td>
                                                 <td class="py-4 px-6">
-                                                    <input 
-                                                        type="text" 
+                                                    <input
+                                                        type="text"
                                                         class="text-base
                                                                font-normal
                                                                text-gray-700
@@ -105,14 +105,14 @@ defineProps({
                                                                transition
                                                                ease-in-out
                                                                m-0
-                                                               focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" 
+                                                               focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                                         v-model="category.category_code"
                                                         disabled
                                                     />
                                                 </td>
                                                 <td class="py-4 px-6">
-                                                    <input 
-                                                        type="text" 
+                                                    <input
+                                                        type="text"
                                                         class="text-base
                                                                font-normal
                                                                text-gray-700
@@ -122,13 +122,13 @@ defineProps({
                                                                transition
                                                                ease-in-out
                                                                m-0
-                                                               focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" 
+                                                               focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                                         v-model="category.parent_id"
                                                     />
                                                 </td>
                                                 <td class="py-4 px-6">
-                                                    <input 
-                                                        type="text" 
+                                                    <input
+                                                        type="text"
                                                         class="text-base
                                                                font-normal
                                                                text-gray-700
@@ -138,13 +138,13 @@ defineProps({
                                                                transition
                                                                ease-in-out
                                                                m-0
-                                                               focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" 
+                                                               focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                                         v-model="category.created_at"
                                                     />
                                                 </td>
                                                 <td class="py-4 px-6">
-                                                    <input 
-                                                        type="text" 
+                                                    <input
+                                                        type="text"
                                                         class="text-base
                                                                font-normal
                                                                text-gray-700
@@ -154,7 +154,7 @@ defineProps({
                                                                transition
                                                                ease-in-out
                                                                m-0
-                                                               focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" 
+                                                               focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                                         v-model="category.updated_at"
                                                     />
                                                 </td>
@@ -167,12 +167,12 @@ defineProps({
                                             </tr>
                                     </tbody>
                                 </table>
-                                
+
                             </form>
                         </div>
 
                         <!-- <div id="addButton"> -->
-                            <button 
+                            <button
                                 v-show="isButton"
                                 type="button"
                                 @click="openAddCategory"
@@ -201,8 +201,8 @@ defineProps({
                                             <tbody>
                                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                                     <td scope="row" class="py-4 px-6">
-                                                        <input 
-                                                            type="text" 
+                                                        <input
+                                                            type="text"
                                                             class="w-full
                                                                 text-base
                                                                 font-normal
@@ -213,13 +213,13 @@ defineProps({
                                                                 transition
                                                                 ease-in-out
                                                                 m-0
-                                                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" 
+                                                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                                             v-model="form.name"
                                                         />
                                                     </td>
                                                     <td class="py-4 px-6">
-                                                        <input 
-                                                            type="text" 
+                                                        <input
+                                                            type="text"
                                                             class="w-full
                                                                 text-base
                                                                 font-normal
@@ -230,7 +230,7 @@ defineProps({
                                                                 transition
                                                                 ease-in-out
                                                                 m-0
-                                                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" 
+                                                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                                             v-model="form.parent_id"
                                                         />
                                                     </td>
@@ -245,7 +245,7 @@ defineProps({
                                                     <td class="py-4 px-6">
                                                     </td>
                                                     <td class="py-4 px-6 text-right">
-                                                        <button type="button" 
+                                                        <button type="button"
                                                             @click="closeAddCategory"
                                                             class="resetDefaultButton mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                                                         >

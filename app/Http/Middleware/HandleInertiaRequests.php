@@ -7,6 +7,7 @@ use Tightenco\Ziggy\Ziggy;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Models\Category;
+use function PHPUnit\Framework\isEmpty;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -36,6 +37,8 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request)
     {
+        $category = Category::getCategory();
+
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
@@ -47,7 +50,7 @@ class HandleInertiaRequests extends Middleware
                 ]);
             },
             'cartCount' => Cart::count(),
-            'categoryItems' => Category::getCategory(),
+            'categoryItems' => $category,//$this->categoryItems(Category::leavesCategory()),
             'flash' => function () use ($request) {
                 return [
                     'error' => $request->session()->get('error'),
@@ -56,4 +59,31 @@ class HandleInertiaRequests extends Middleware
             }
         ]);
     }
+
+    function categoryItems($arr)//Category::getCategory()
+    {
+        foreach ($arr as $category) {
+//            if($category->children->first()) {
+//                echo $category->name.'<br/>';
+//            }
+//dd($category->children->isEmpty());
+                //echo $category->name.'<br/>';
+                if($category->children->isEmpty()) {
+                    echo $category->children->isEmpty().'<br/>';
+                    $this->categoryItems($category->children);
+                }
+        }
+
+//        foreach ($arr as $category) {
+//
+//            if($category["name"]) {
+//                if($category["children"] == "")
+//                    echo $category["name"].'<br/>';
+//            }
+//            if($category["children"] == "") {
+//                $this->categoryItems($category["children"]);
+//            }
+//        }
+    }
+
 }
