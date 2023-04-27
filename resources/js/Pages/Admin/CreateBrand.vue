@@ -3,10 +3,10 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Head} from '@inertiajs/inertia-vue3';
 
 defineProps({
-    'categories': Object,
     'brands': Object,
-    'categoryItems': Object,
-    errors: Object
+    errors: Object,
+    success: null,
+    error: null
 })
 </script>
 
@@ -28,12 +28,12 @@ defineProps({
                             </div>
                         </div>
 
-                        <div class="text-center text-2xl mb-10">Create Product</div>
+                        <div class="text-center text-2xl mb-10">Create Brand</div>
                         <form class="w-full max-w-lg mx-auto" @submit.prevent="submit">
                             <div class="flex flex-wrap -mx-3 mb-6">
                                 <div class="w-full px-3">
                                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-productName">
-                                        Product Name
+                                        Brand Name
                                     </label>
                                     <input class="appearance-none block w-full bg-gray-200 text-gray-700 border
                                                 border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none
@@ -41,61 +41,60 @@ defineProps({
                                            id="grid-password"
                                            type="text"
                                            placeholder="Product name"
-                                           v-model="form.productName"
+                                           v-model="form.brandName"
                                     >
-                                    <div v-if="errors.productName" class="text-red-500">{{ errors.productName }}</div>
+                                    <div v-if="errors.brandName" class="text-red-500">{{ errors.brandName }}</div>
                                 </div>
                             </div>
                             <div class="flex flex-wrap -mx-3 mb-6">
                                 <div class="w-full px-3">
                                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-productName">
-                                        Product Code
+                                        Product Colour
                                     </label>
                                     <input class="appearance-none block w-full bg-gray-200 text-gray-700 border
                                                 border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none
                                                 focus:bg-white focus:border-gray-500" id="grid-password"
                                            type="text"
                                            placeholder="Product code"
-                                           v-model="form.productCode"
+                                           v-model="form.brandColor"
                                     >
-                                    <div v-if="errors.productCode" class="text-red-500">{{ errors.productCode }}</div>
+                                    <div v-if="errors.brandColor" class="text-red-500">{{ errors.brandColor }}</div>
                                 </div>
                             </div>
                             <div class="flex flex-wrap -mx-3 mb-6">
                                 <div class="w-full px-3">
                                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-productName">
-                                        Brand Name
+                                        Product Size
                                     </label>
-                                    <select v-model="form.brandName">
-
-                                        <option v-for="option in brands" :value="option['id']">
-                                            {{ option['brand_name'] }}
-                                        </option>
-
-                                    </select>
-                                    <div v-if="errors.brandName" class="text-red-500">{{ errors.brandName }}</div>
+                                    <input class="appearance-none block w-full bg-gray-200 text-gray-700 border
+                                                border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none
+                                                focus:bg-white focus:border-gray-500" id="grid-password"
+                                           type="text"
+                                           placeholder="Product code"
+                                           v-model="form.brandSize"
+                                    >
+                                    <div v-if="errors.brandSize" class="text-red-500">{{ errors.brandSize }}</div>
                                 </div>
                             </div>
-
                             <div class="flex flex-wrap -mx-3 mb-6">
                                 <div class="w-full px-3">
                                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-productName">
-                                        Product Category
+                                        Available Brand Name
                                     </label>
-                                    <select v-model="form.productCategory">
-                                        <option v-for="option in cat(categoryItems)" :value="option.id">
-                                            {{ option.name }}
+                                    <p class="mb-2 text-gray-600 text-xs italic">These are the list of available brands in the database.</p>
+                                    <select>
+                                        <option v-for="option in brands">
+                                            {{ option.brand_name }}
                                         </option>
                                     </select>
-
-                                    <div v-if="errors.productCategory" class="text-red-500">{{ errors.productCategory }}</div>
                                 </div>
                             </div>
+
                             <div class="flex flex-wrap -mx-3 mb-6">
                                 <button
                                     type="submit"
                                     class="defaultButton ml-3 mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                    Add new product
+                                    Add new brand
                                 </button>
                             </div>
                         </form>
@@ -106,52 +105,29 @@ defineProps({
     </AuthenticatedLayout>
 </template>
 
-  <script>
-  import {isEmpty} from "lodash/lang";
-
-  export default {
+<script>
+export default {
+    name: "CreateBrand",
     data() {
-      return {
-
-        form: {
-            productName: null,
-            productCode: null,
-            productCategory: null,
-            brandName: null,
-        },
-      }
+        return {
+            isButton: true,
+            form: {
+                brandName: null,
+                brandColor: null,
+                brandSize: null
+            },
+        }
     },
     methods: {
-        cat(obj) {
-            let result = []
-            function recursiveFx(obj) {
-                for (let key in obj) {
-                    if (typeof obj[key] === "object") {
-                        recursiveFx(obj[key])
-                    }
-                    if (isEmpty(obj.children) && obj.name) {
-                        let newObj = {}
-                        newObj["id"] = obj.id
-                        newObj["name"] = obj.name
-                        result.push(newObj)
-                    }
-                }
-                //filter result based on category id
-                return Object.values(
-                    result.reduce( (c, e) => {
-                        if (!c[e.id]) c[e.id] = e;
-                        return c;
-                    }, {})
-                );
-
-            }
-            return recursiveFx(obj)
-        },
         submit() {
             console.log(this.form)
-            this.$inertia.post('/adminProduct', this.form, { preserveState: false })
-        }
+            this.$inertia.post('/createNewBrand', this.form, { preserveState: false })
 
+        }
     }
-  }
-  </script>
+}
+</script>
+
+<style scoped>
+
+</style>

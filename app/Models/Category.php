@@ -63,4 +63,5 @@ class Category extends Model
         return Category::where('id', $id)
             ->with('products.productFeatures.images')->paginate(20);
     }
+
 }

@@ -50,7 +50,7 @@ class HandleInertiaRequests extends Middleware
                 ]);
             },
             'cartCount' => Cart::count(),
-            'categoryItems' => $category,//$this->categoryItems(Category::leavesCategory()),
+            'categoryItems' => $category,
             'flash' => function () use ($request) {
                 return [
                     'error' => $request->session()->get('error'),
@@ -58,32 +58,6 @@ class HandleInertiaRequests extends Middleware
                 ];
             }
         ]);
-    }
-
-    function categoryItems($arr)//Category::getCategory()
-    {
-        foreach ($arr as $category) {
-//            if($category->children->first()) {
-//                echo $category->name.'<br/>';
-//            }
-//dd($category->children->isEmpty());
-                //echo $category->name.'<br/>';
-                if($category->children->isEmpty()) {
-                    echo $category->children->isEmpty().'<br/>';
-                    $this->categoryItems($category->children);
-                }
-        }
-
-//        foreach ($arr as $category) {
-//
-//            if($category["name"]) {
-//                if($category["children"] == "")
-//                    echo $category["name"].'<br/>';
-//            }
-//            if($category["children"] == "") {
-//                $this->categoryItems($category["children"]);
-//            }
-//        }
     }
 
 }

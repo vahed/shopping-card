@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\Brand;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class AdminProductController extends Controller
@@ -35,7 +36,7 @@ class AdminProductController extends Controller
      */
     public function create()
     {
-        //
+        dd('create');
     }
 
     /**
@@ -46,7 +47,19 @@ class AdminProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        Product::create(
+            [
+                'name' => $validated["productName"],
+                'slug' => null,
+                'product_code' => $validated["productCode"],
+                'category_id' => $validated["productCategory"],
+                'brand_id' => $validated["brandName"]
+            ]
+        );
+
+        return redirect()->back()->with('success', 'New product added to the database');
     }
 
     /**

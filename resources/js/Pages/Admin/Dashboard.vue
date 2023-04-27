@@ -3,7 +3,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/inertia-vue3';
 
 defineProps({
-    'categories': Object
+    'categories': Object,
+    errors: Object,
+    error: null
 })
 </script>
 
@@ -182,8 +184,9 @@ defineProps({
                             <div class="box nonVisible">
 
                                 <div class="mt-10 mb-10 text-gray-900 text-2xl text-center">Add a new Category</div>
-                                <form>
-                                    <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+                                <div v-if="errors.name" class="text-center mb-5 text-red-500">{{ errors.name }}</div>
+                                <div v-if="error" class="text-center mb-5 text-red-500">{{ error }}</div>
+                                <form @submit.prevent="submit">
                                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                                 <tr>
@@ -191,7 +194,7 @@ defineProps({
                                                         Category name
                                                     </th>
                                                     <th scope="col" class="py-3 px-6">
-                                                        Parent ID
+                                                        Parent category name
                                                     </th>
                                                     <th scope="col" class="py-3 px-6">
                                                         <span class="sr-only">Edit</span>
@@ -218,27 +221,17 @@ defineProps({
                                                         />
                                                     </td>
                                                     <td class="py-4 px-6">
-                                                        <input
-                                                            type="text"
-                                                            class="w-full
-                                                                text-base
-                                                                font-normal
-                                                                text-gray-700
-                                                                bg-white bg-clip-padding
-                                                                border border-solid border-gray-300
-                                                                rounded
-                                                                transition
-                                                                ease-in-out
-                                                                m-0
-                                                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                                            v-model="form.parent_id"
-                                                        />
+                                                        <select v-model="form.parentId" >
+                                                            <option v-for="option in categories" :value="option.parent_id">
+                                                                {{ option.name }}
+                                                            </option>
+                                                        </select>
+
                                                     </td>
                                                     <td class="py-4 px-6 text-right" @click="addCategory">
                                                         <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" preserveScroll>Add Category</a>
                                                     </td>
                                                 </tr>
-
                                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                                     <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                     </th>
@@ -255,7 +248,6 @@ defineProps({
                                                 </tr>
                                             </tbody>
                                         </table>
-                                    </div>
                                 </form>
 
                                 <div class="m-5" v-if="$page.props.flash.success" id="dialog" preserveScroll>
@@ -284,7 +276,7 @@ export default {
             isButton: true,
             form: {
                 name: null,
-                parent_id: null
+                parentId: null
             },
         }
     },
@@ -308,10 +300,10 @@ export default {
             box.classList.add('nonVisible')
         },
         addCategory() {
-            console.log("tests"+this.form)
-            this.$inertia.post('/category/create' , this.form, {
+            console.log("tests"+this.form.parentId)
+            this.$inertia.post('createNewCategory' , this.form, {
                 preserveScroll: true,
-                preserveState: true,
+                preserveState: false,
                 resetOnSuccess: false
             })
         }

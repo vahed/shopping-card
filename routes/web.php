@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminBrandController;
+use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminProductController;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
@@ -55,15 +58,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('Admin/Dashboard', [
             'isLogged' => Auth::check(),
-            'categories' => Category::all()
+            'categories' => Category::all()->push(['name' => 'New Product', 'parent_id' => NULL]),
         ]);
     })->name('admin_dashboard');
 
-    Route::resource('adminproduct', ProductController::class)->only('index','show','store');
-
+    Route::resource('adminProduct', AdminProductController::class);//->only('index','show','store');
+    Route::post('createNewCategory',[AdminCategoryController::class, 'createNewCategory'])->name('category.createNewCategory');
     Route::post('createProduct',[ProductController::class, 'create'])->name('product.create');
-
     Route::resource('showCreateProduct', AdminProductController::class);
+    Route::get('brands',[AdminBrandController::class, 'index'])->name('brand.index');
+    Route::post('createNewBrand',[AdminBrandController::class, 'createNewBrand'])->name('brand.createNewBrand');
 });
 
 require __DIR__.'/auth.php';
