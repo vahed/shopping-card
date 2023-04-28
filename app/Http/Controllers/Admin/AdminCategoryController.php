@@ -30,6 +30,7 @@ class AdminCategoryController extends Controller
                     return redirect()->back()->with('error', 'This category name already exists.');
                 }
             }
+
             Category::create([
                 'name' => $request->name,
                 'parent_id' =>$request->parentId

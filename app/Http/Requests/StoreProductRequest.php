@@ -29,7 +29,14 @@ class StoreProductRequest extends FormRequest
             'productName' => 'required|max:255',
             'productCode' => 'required',
             'brandName' => 'required',
-            'productCategory' => 'required'
+            'productCategory' => 'required',
+            'productPrice' => 'required|int',
+            'productColor' => 'required',
+            'productQuantity' => 'required',
+            'productDiscount' => 'required',
+            'productDescription' => 'required',
+            'productSize' => 'required',
+            'productInstock' => 'required|boolean'
         ];
     }
 }

@@ -4,6 +4,7 @@ import { Head } from '@inertiajs/inertia-vue3';
 
 defineProps({
     'categories': Object,
+    'originalCategories': Object,
     errors: Object,
     error: null
 })
@@ -58,7 +59,7 @@ defineProps({
                                         </tr>
                                     </thead>
                                     <tbody>
-                                            <tr v-for="category in categories" :key="category.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                            <tr v-for="category in originalCategories" :key="category.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                                 <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                     {{ category.id }}
                                                 </th>

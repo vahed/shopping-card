@@ -10,6 +10,8 @@ class ProductFeature extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['product_id', 'price', 'quantity', 'color', 'size', 'description', 'discount', 'in_stock'];
+
     public function products()
     {
         return $this->belongsTo(Product::class);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Product;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
 use Illuminate\Http\Request;
@@ -50,6 +51,7 @@ class HandleInertiaRequests extends Middleware
                 ]);
             },
             'cartCount' => Cart::count(),
+            'products' => Product::all(),
             'categoryItems' => $category,
             'flash' => function () use ($request) {
                 return [

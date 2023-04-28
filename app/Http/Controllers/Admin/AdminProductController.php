@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Brand;
+use App\Models\ProductFeature;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -49,13 +50,34 @@ class AdminProductController extends Controller
     {
         $validated = $request->validated();
 
-        Product::create(
+        $existingProduct = Product::all();
+
+        foreach( $existingProduct as $prod){
+            if($prod->name == $request->productName) {
+                return redirect()->back()->with('error', 'This product name already exists.');
+            }
+        }
+
+        $product = Product::create(
             [
                 'name' => $validated["productName"],
                 'slug' => null,
                 'product_code' => $validated["productCode"],
                 'category_id' => $validated["productCategory"],
                 'brand_id' => $validated["brandName"]
+            ]
+        );
+
+        ProductFeature::create(
+            [
+                'product_id' => $product->id,
+                'price' => $validated["productPrice"],
+                'quantity' => 123,
+                'color'=> $validated["productColor"],
+                'size' => $validated["productSize"],
+                'description' => $validated["productDescription"],
+                'discount' => $validated["productDiscount"],
+                'in_stock' => $validated["productInstock"]
             ]
         );
 
