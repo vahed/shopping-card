@@ -30,13 +30,14 @@ class StoreProductRequest extends FormRequest
             'productCode' => 'required',
             'brandName' => 'required',
             'productCategory' => 'required',
-            'productPrice' => 'required|int',
-            'productColor' => 'required',
-            'productQuantity' => 'required',
-            'productDiscount' => 'required',
-            'productDescription' => 'required',
-            'productSize' => 'required',
-            'productInstock' => 'required|boolean'
+//            'productPrice' => 'required|int',
+//            'productColor' => 'required',
+//            'productQuantity' => 'required',
+//            'productDiscount' => 'required',
+//            'productDescription' => 'required',
+//            'productSize' => 'required',
+//            'productInstock' => 'required|boolean',
+//            'image_url' => 'required'
         ];
     }
 }

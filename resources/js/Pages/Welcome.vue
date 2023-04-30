@@ -23,12 +23,7 @@ defineProps({
     <Carousel />
 
     <!-- main -->
-<!--    <section class="container mx-auto px-6 p-10">-->
-<!--        <Product :products="products" />-->
-<!--    </section>-->
-<!--    <section class="container mx-auto px-6 p-10">-->
-<!--        <Category :category="category"/>-->
-<!--    </section>-->
+
     <section class="container mx-auto px-6 p-10">
         <h1 class="text-2xl text-center font-black">Choose the category suitable for your need</h1>
         <div class="grid grid-cols-3 gap-3 mt-5">

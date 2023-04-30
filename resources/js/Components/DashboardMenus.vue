@@ -51,8 +51,10 @@ export default {
             adminLinks: [
                 {'key' : 1, 'name' : 'Create brand', 'logo': 'far fa-plus-square', 'route': 'brand.index'},
                 {'key' : 2, 'name' : 'Create products', 'logo': 'fas fa-tshirt', 'route': 'showCreateProduct.index'},
-                {'key' : 3, 'name' : 'Dashboard', 'logo': 'fas fa-user-edit', 'route': 'admin_dashboard'},
-                {'key' : 4, 'name' : 'Add images', 'logo': 'fa fa-camera', 'route': 'image.index'}
+                {'key' : 3, 'name' : 'Create product features', 'logo': 'fa fa-home', 'route': 'adminProductFeature.index'},
+                {'key' : 4, 'name' : 'Add product images', 'logo': 'fa fa-camera', 'route': 'adminProductImage.index'},
+                {'key' : 5, 'name' : 'Dashboard', 'logo': 'fas fa-user-edit', 'route': 'admin_dashboard'},
+                {'key' : 6, 'name' : 'Home page', 'logo': 'fa fa-home', 'route': 'home.index'}
             ],
             // userLinks: [
             //     {'key' : 1, 'name' : 'Shopping history', 'logo': 'far fa-plus-square'},

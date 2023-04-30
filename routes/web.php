@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\Admin\AdminBrandController;
 use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminGetProductFeatureController;
 use App\Http\Controllers\Admin\AdminImageController;
 use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\Admin\AdminProductFeatureController;
+use App\Http\Controllers\Admin\AdminProductImageController;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Http\Controllers\CartController;
@@ -54,16 +57,30 @@ Route::get('/', function () {
     ]);
 });
 
+Route::middleware(['auth', 'user'])->group(function () {
+    Route::get('user_dashboard', function () {
+        return Inertia::render('User/Dashboard', [
+            'isLogged' => Auth::check(),
+        ]);
+    })->name('user_dashboard');
+});
+
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('Admin/Dashboard', [
             'isLogged' => Auth::check(),
-            'categories' => Category::all()->push(['name' => 'New Product', 'parent_id' => NULL]),
+            'categories' => Category::all()->push(['name' => 'New Category', 'parent_id' => NULL]),
             'originalCategories' =>Category::all()
         ]);
     })->name('admin_dashboard');
 
     Route::resource('adminProduct', AdminProductController::class);//->only('index','show','store');
+    Route::resource('adminProductFeature', AdminProductFeatureController::class);
+    Route::resource('adminProductImage', AdminProductImageController::class)->only('index','show','store');;
+
+    Route::post('adminGetProductFeature', [AdminGetProductFeatureController::class, 'getRelatedFeatureProduct'])->name('getProductImage.getRelatedFeatureProduct');
+    Route::post('adminGetProductFeature/storeImage', [AdminGetProductFeatureController::class, 'storeImage'])->name('getProductImage.storeImage');
+
     Route::post('createNewCategory',[AdminCategoryController::class, 'createNewCategory'])->name('category.createNewCategory');
     Route::post('createProduct',[ProductController::class, 'create'])->name('product.create');
     Route::resource('showCreateProduct', AdminProductController::class);

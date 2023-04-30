@@ -3,19 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\ProductFeatureRequest;
 use App\Http\Requests\UpdateProductRequest;
-use App\Models\Category;
+use App\Models\Brand;
 use App\Models\Image;
 use App\Models\Product;
-use App\Models\Brand;
 use App\Models\ProductFeature;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 
-class AdminProductController extends Controller
+class AdminProductFeatureController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,8 +21,8 @@ class AdminProductController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Admin/CreateProduct', [
-            'brands' => Brand::all(),
+        return Inertia::render('Admin/CreateProductFeature', [
+            'products' => Product::all(),
             'isLogged' => Auth::check()
         ]);
     }
@@ -43,50 +40,25 @@ class AdminProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreProductRequest  $request
+     * @param  \App\Http\Requests\ProductFeatureRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProductRequest $request)
+    public function store(ProductFeatureRequest $request)
     {
         $validated = $request->validated();
 
-        $existingProduct = Product::all();
-
-        foreach( $existingProduct as $prod){
-            if($prod->name == $request->productName) {
-                return redirect()->back()->with('error', 'This product name already exists.');
-            }
-        }
-
-        $product = Product::create(
+        $productFeature = ProductFeature::create(
             [
-                'name' => $validated["productName"],
-                'slug' => null,
-                'product_code' => $validated["productCode"],
-                'category_id' => $validated["productCategory"],
-                'brand_id' => $validated["brandName"]
+                'product_id' => $request->productName,
+                'price' => $validated["productPrice"],
+                'quantity' => $validated["productQuantity"],
+                'color'=> $validated["productColor"],
+                'size' => $validated["productSize"],
+                'description' => $validated["productDescription"],
+                'discount' => $validated["productDiscount"],
+                'in_stock' => $validated["productInstock"]
             ]
         );
-
-//        $productFeature = ProductFeature::create(
-//            [
-//                'product_id' => $product->id,
-//                'price' => $validated["productPrice"],
-//                'quantity' => 123,
-//                'color'=> $validated["productColor"],
-//                'size' => $validated["productSize"],
-//                'description' => $validated["productDescription"],
-//                'discount' => $validated["productDiscount"],
-//                'in_stock' => $validated["productInstock"]
-//            ]
-//        );
-//
-//        Image::create(
-//            [
-//                'product_feature_id' => $productFeature->product_feature_id,
-//                'image_url' => $productFeature->image_url
-//            ]
-//        );
 
         return redirect()->back()->with('success', 'New product added to the database');
     }
